@@ -173,7 +173,6 @@ bool Framework::InitializeWindow(){
 
 	return true;
 }
-
 bool Framework::InitializeD3D(){
 
 	D3D11_TEXTURE2D_DESC depthStencilDesc;

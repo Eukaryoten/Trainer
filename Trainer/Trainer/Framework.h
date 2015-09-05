@@ -33,10 +33,6 @@ public:
 	
 protected:
 
-	struct ObjectConstantBuffer{
-		D3DXMATRIX WVP;
-	};
-
 	ObjectConstantBuffer cbPerObj; // Constant buffer structure
 
 	ID3D11InputLayout *inputLayout;
