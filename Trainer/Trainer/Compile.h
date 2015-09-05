@@ -16,6 +16,10 @@
 #include "PipelineDefinitions.h"
 #include <iostream> // Commit test here
 
+// New branch test
+
+// Bla bla bla
+
 #define SCREEN_WIDTH     900
 #define SCREEN_HEIGHT    900
 #define WINDOW_POSITIONX 700 - SCREEN_WIDTH  / 2
