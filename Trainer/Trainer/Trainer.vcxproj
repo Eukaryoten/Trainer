@@ -155,7 +155,7 @@
     <ClCompile Include="GeometryManager.cpp" />
     <ClCompile Include="ModelObject.cpp" />
     <ClCompile Include="Program.cpp" />
-    <ClCompile Include="ShaderObject.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
@@ -167,7 +167,7 @@
     <ClInclude Include="GeometryManager.h" />
     <ClInclude Include="ModelObject.h" />
     <ClInclude Include="PipelineDefinitions.h" />
-    <ClInclude Include="ShaderObject.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>

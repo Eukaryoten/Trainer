@@ -4,7 +4,7 @@
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
 
-#include "Compile.h"
+#include <vector>
 #include "ModelObject.h"
 #include "Vertex.h"
 

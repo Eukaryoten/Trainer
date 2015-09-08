@@ -173,7 +173,6 @@ bool Framework::InitializeWindow(){
 
 	return true;
 }
-
 bool Framework::InitializeD3D(){
 
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -262,7 +261,6 @@ bool Framework::InitializeInputLayout(){
 bool Framework::InitializeConstantBuffer(){
 	return true;
 }
-
 bool Framework::InitializeViewPort(){
 	return true;
 }

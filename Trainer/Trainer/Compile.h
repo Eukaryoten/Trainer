@@ -12,15 +12,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Timer.h"
-#include <vector>
 #include "PipelineDefinitions.h"
-#include <iostream> // Commit test here
-
-// New branch test
-
-// Bla bla bla
-
-//Nobby nob nob
+#include "Shader.h"
+#include <iostream>
 
 #define SCREEN_WIDTH     900
 #define SCREEN_HEIGHT    900

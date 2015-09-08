@@ -6,4 +6,5 @@
 
 struct ObjectConstantBuffer{
 	D3DXMATRIX WVP;
+	D3DXMATRIX world;
 };
