@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Timer.h"
-#include <vector>
 #include "PipelineDefinitions.h"
 #include "Shader.h"
 #include <iostream>

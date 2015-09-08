@@ -18,9 +18,6 @@ private:
 	GeometryManager* gManager;
 	Shader* defaultShader;
 
-	ObjectConstantBuffer* constantBuffer;
-
-
 	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space
 	D3DXMATRIX world;
 	D3DXMATRIX view;

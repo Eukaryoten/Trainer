@@ -261,7 +261,6 @@ bool Framework::InitializeInputLayout(){
 bool Framework::InitializeConstantBuffer(){
 	return true;
 }
-
 bool Framework::InitializeViewPort(){
 	return true;
 }

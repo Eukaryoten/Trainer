@@ -5,6 +5,10 @@ Application::Application(HINSTANCE hInstance){
 
 	timer = new Timer();
 	gManager = new GeometryManager();
+
+	currentPosition = D3DXVECTOR3(10.0f, 0.0f, 5.0f);
+	currentTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	currentUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 }
 
 bool Application::InitializeGame(){
@@ -33,8 +37,9 @@ void Application::Update(float dt){
 	D3DXMatrixIdentity(&world);
 	WVP = world * view * projection; // Get the WVP to send to constant buffer
 
-	//D3DXMatrixTranspose(&constantBuffer->WVP, &WVP); // Send WVP to constant buffer
-	//devCon->UpdateSubresource(defaultConstantBuffer, 0, NULL, constantBuffer, 0, 0);
+
+	D3DXMatrixTranspose(&cbPerObj.WVP, &WVP); // Send WVP to constant buffer
+	devCon->UpdateSubresource(defaultConstantBuffer, 0, NULL, &cbPerObj, 0, 0);
 
 
 }
