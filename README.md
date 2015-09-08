@@ -1,1 +1,1 @@
-# Trainer project by Tyrone & Sidney :D
+Trainer project by Tyrone & Sidney :D
