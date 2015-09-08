@@ -15,6 +15,8 @@ public:
 
 private:
 
+	Light light;
+
 	GeometryManager* gManager;
 	Shader* defaultShader;
 
