@@ -251,8 +251,6 @@ bool Framework::InitializeD3D(){
 
 	dev->CreateBuffer(&constantBufferDesc, NULL, &constantFrameBuffer);
 
-
-
 	return true;
 }
 

@@ -18,9 +18,7 @@ Application::Application(HINSTANCE hInstance){
 bool Application::InitializeGame(){
 
 
-	defaultShader = new Shader(dev, L"DefaultShader.shader");
-
-	devCon->IASetInputLayout(inputLayout);
+	defaultShader = new Shader(dev, L"DefaultShader.shader", Vertex::NormalLayout);
 
 	gManager->LoadData();
 	gManager->LoadVertexBuffer(dev);
@@ -60,7 +58,7 @@ void Application::Render(){
 	devCon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	defaultShader->SetAsCurrentShader(devCon);
+	defaultShader->SetShader(devCon);
 
 	devCon->DrawIndexed(36,0,0);
 
