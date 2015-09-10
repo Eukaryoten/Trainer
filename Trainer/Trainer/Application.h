@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "GeometryManager.h"
+#include "GameObject.h"
 
 class Application : public Framework
 {
@@ -11,15 +12,19 @@ public:
 	void Update(float dt);
 	void Render();
 
-	void SetShader();
-
 	~Application();
 
 private:
 
+
+	float rot;
+
 	Light light;
+	PointLight pLight;
 
 	GeometryManager* gManager;
+
+	GameObject *test;
 
 	Shader* currentShader;
 	Shader* defaultShader;

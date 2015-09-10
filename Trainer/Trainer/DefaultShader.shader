@@ -12,18 +12,15 @@ struct Light {
 cbuffer FrameConstantBuffer {
 
 	Light light;
-
 };
 
 struct VS_INPUT {
 	float4 pos	  : POSITION;
-	//float3 tex    : TEXCOORD;
 	float3 normal : NORMAL;
 };
 
 struct VS_OUTPUT {
 	float4 pos	  : SV_POSITION;
-	//float3 tex    : TEXCOORD;
 	float3 normal : NORMAL;
 };
 

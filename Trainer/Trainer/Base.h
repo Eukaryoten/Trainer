@@ -29,9 +29,6 @@ public:
 
 #pragma region Update Functions
 
-	void UpdateMatrices(); // Stores the matrices in the constant buffer structure which send information to the current shader
-	virtual void UpdateGeometry(); // Stores instance position data to be sent to the current shader
-
 #pragma endregion
 
 #pragma region Increment Functions
@@ -45,7 +42,7 @@ public:
 
 protected:
 
-	ObjectConstantBuffer* constantBuffer; // Pointer to constant buffer object used to send information to shaders
+	
 
 	// Direction Vectors
 
