@@ -68,13 +68,6 @@ D3DXVECTOR3 Base::GetFacingVector(){
 
 #pragma region Update Functions
 
-void Base::UpdateMatrices(){
-	D3DXMatrixTranspose(&constantBuffer->WVP, &WVP); // Send WVP to constant buffer
-}
-void Base::UpdateGeometry(){
-
-}
-
 #pragma endregion
 
 #pragma region Increment Functions

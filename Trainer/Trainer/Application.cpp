@@ -5,6 +5,9 @@ Application::Application(HINSTANCE hInstance){
 
 	timer = new Timer();
 	gManager = new GeometryManager();
+	test = new GameObject();
+
+	rot = 1;
 
 	currentPosition = D3DXVECTOR3(10.0f, 0.0f, 5.0f);
 	currentTarget = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -13,12 +16,23 @@ Application::Application(HINSTANCE hInstance){
 	light.dir = D3DXVECTOR4(0.25f, 0.5f, -1.0f, 0.0);
 	light.ambient = D3DXVECTOR4(0.2f, 0.2f, 0.2f, 1.0f);
 	light.diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+
+
+	// Point Light Initialization
+
+	pLight.pos = D3DXVECTOR4(0.0f, 0.0f, 0.0f,0.0f);
+	pLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
+	pLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	pLight.att = D3DXVECTOR4(0.0f, 0.2f, 0.0f,0.0f);
+	pLight.range = 100.0f;
 }
 
 bool Application::InitializeGame(){
 
 
 	defaultShader = new Shader(dev, L"DefaultShader.shader", Vertex::NormalLayout);
+
+	test->Initialize(&cbPerObj);
 
 	gManager->LoadData();
 	gManager->LoadVertexBuffer(dev);
@@ -40,16 +54,12 @@ bool Application::InitializeGame(){
 
 void Application::Update(float dt){
 
+	rot += 0.5 * dt;
+
 	D3DXMatrixIdentity(&world);
 	WVP = world * view * projection; // Get the WVP to send to constant buffer
 
-
-	D3DXMatrixTranspose(&cbPerObj.WVP, &WVP); // Send WVP to constant buffer
-	D3DXMatrixTranspose(&cbPerObj.world, &WVP); // Send WVP to constant buffer
-
-	devCon->UpdateSubresource(constantObjectBuffer, 0, NULL, &cbPerObj, 0, 0);
-
-
+	test->SetRotationVector(D3DXVECTOR3(rot,0.0,rot));
 }
 
 void Application::Render(){
@@ -60,9 +70,7 @@ void Application::Render(){
 
 	defaultShader->SetShader(devCon);
 
-	devCon->DrawIndexed(36,0,0);
-
-	// Render stuff here
+	test->Draw(devCon, constantObjectBuffer, view*projection);
 
 	swapChain->Present(0, 0);
 

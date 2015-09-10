@@ -5,7 +5,6 @@
 #include <assimp\postprocess.h>
 
 #include <vector>
-#include "ModelObject.h"
 #include "Vertex.h"
 
 class GeometryManager
@@ -37,7 +36,7 @@ private:
 	std::vector<Vertex::Normals>vertexData;
 	std::vector<DWORD>indexData;
 
-	std::vector<ModelObject*>modelData;
+	//std::vector<ModelObject*>modelData;
 
 	float xScale;
 	float yScale;
