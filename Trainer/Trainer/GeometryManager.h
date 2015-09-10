@@ -25,7 +25,7 @@ public:
 	void SetIndexBuffer(ID3D11DeviceContext *devCon);
 
 
-	Vertex::Position* GetVertexData();
+	Vertex::Normals* GetVertexData();
 	DWORD* GetIndexData();
 
 	~GeometryManager();
@@ -34,7 +34,7 @@ private:
 
 	D3DXVECTOR3 tempCubeDim;
 
-	std::vector<Vertex::Position>vertexData;
+	std::vector<Vertex::Normals>vertexData;
 	std::vector<DWORD>indexData;
 
 	std::vector<ModelObject*>modelData;
@@ -42,7 +42,7 @@ private:
 	float xScale;
 	float yScale;
 	float zScale;
-	UINT stride = sizeof(Vertex::Position);
+	UINT stride = sizeof(Vertex::Normals);
 	UINT offset = 0;
 	ID3D11Buffer *vertexBuffer;
 	ID3D11Buffer *indexBuffer;

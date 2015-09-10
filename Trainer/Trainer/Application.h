@@ -11,11 +11,17 @@ public:
 	void Update(float dt);
 	void Render();
 
+	void SetShader();
+
 	~Application();
 
 private:
 
+	Light light;
+
 	GeometryManager* gManager;
+
+	Shader* currentShader;
 	Shader* defaultShader;
 
 	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space

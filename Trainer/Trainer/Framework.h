@@ -33,9 +33,13 @@ public:
 	
 protected:
 
-	ObjectConstantBuffer cbPerObj; // Constant buffer structure
-
 	ID3D11InputLayout *inputLayout;
+
+	ID3D11Buffer *constantObjectBuffer;
+	ID3D11Buffer *constantFrameBuffer;
+
+	ObjectConstantBuffer cbPerObj; // Constant buffer per object
+	FrameConstantBuffer cbPerFrame; // Constant buffer per frame
 
 	Timer* timer;
 	std::wstring applicationTitle; 
@@ -54,7 +58,7 @@ protected:
 	ID3D11DepthStencilView* depthStencilView;
 	ID3D11Texture2D* depthStencilBuffer;
 	ID3D11SamplerState* samplerState;
-	ID3D11Buffer *defaultConstantBuffer;
+	
 
 };
 
