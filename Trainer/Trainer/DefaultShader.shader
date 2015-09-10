@@ -48,16 +48,13 @@ VS_OUTPUT VS(VS_INPUT input) { // Vertex shader stage
 
 float4 PS(VS_OUTPUT input) : SV_TARGET{ // Pixel shader stage
 
-	/*input.normal = normalize(input.normal);
+	input.normal = normalize(input.normal);
 
-	float4 diffuse = ObjTexture.Sample(ObjSamplerState, input.tex);
-
+	float4 diffuse = float4(0.0, 0.5, 0.5, 0.0);
 	float3 finalColor;
 
-	finalColor = diffuse * light.ambient;
-	finalColor += saturate(dot(light.dir, input.normal) * light.diffuse * diffuse);
+	finalColor = diffuse * light.amb;
+	finalColor += saturate(dot(light.dir, input.normal) * light.dif * diffuse);
 
-	return float4(finalColor, diffuse.a);*/
-
-	return float4(0.0,0.5,0.5,0.0); //  Need to look here next, normals working sort of
+	return float4(finalColor, diffuse.a);
 }
