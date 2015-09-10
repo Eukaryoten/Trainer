@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ApplicationDefinitions.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Compile.h" />
     <ClInclude Include="Framework.h" />
@@ -174,7 +175,7 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DefaultShader.shader" />
+    <None Include="DirectionalLight.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

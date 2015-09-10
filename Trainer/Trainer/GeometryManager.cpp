@@ -128,17 +128,17 @@ void GeometryManager::AddCubeVertexData(){
 
 	// Front Face
 
-	tempArray[0] = Vertex::Normals(-1.0f, -1.0f, -1.0f, 0.0f,  0.0f, 1.0f);
-	tempArray[1] = Vertex::Normals(-1.0f,  1.0f, -1.0f, 0.0f,  0.0f, 1.0f);
-	tempArray[2] = Vertex::Normals( 1.0f,  1.0f, -1.0f, 0.0f,  0.0f, 1.0f);
-	tempArray[3] = Vertex::Normals( 1.0f, -1.0f, -1.0f, 0.0f,  0.0f, 1.0f);
+	tempArray[0] = Vertex::Normals(-1.0f, -1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
+	tempArray[1] = Vertex::Normals(-1.0f,  1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
+	tempArray[2] = Vertex::Normals( 1.0f,  1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
+	tempArray[3] = Vertex::Normals( 1.0f, -1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
 
 		// Back Face
 
-	tempArray[4] = Vertex::Normals(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, -1.0f);
-	tempArray[5] = Vertex::Normals( 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, -1.0f);
-	tempArray[6] = Vertex::Normals( 1.0f,  1.0f, 1.0f, 0.0f, 0.0f, -1.0f);
-	tempArray[7] = Vertex::Normals(-1.0f,  1.0f, 1.0f, 0.0f, 0.0f, -1.0f);
+	tempArray[4] = Vertex::Normals(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	tempArray[5] = Vertex::Normals( 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	tempArray[6] = Vertex::Normals( 1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	tempArray[7] = Vertex::Normals(-1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
 
 		// Top Face
 
@@ -157,7 +157,7 @@ void GeometryManager::AddCubeVertexData(){
 		// Left Face
 
 	tempArray[16] = Vertex::Normals(-1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 0.0f);
-	tempArray[17] = Vertex::Normals(-1.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f);
+	tempArray[17] = Vertex::Normals(-1.0f, 1.0f,  1.0f, -1.0f, 0.0f, 0.0f);
 	tempArray[18] = Vertex::Normals(-1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f);
 	tempArray[19] = Vertex::Normals(-1.0f, -1.0f, -1.0f,-1.0f, 0.0f, 0.0f);
 
