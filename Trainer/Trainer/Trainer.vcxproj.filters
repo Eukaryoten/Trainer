@@ -80,5 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectionalLight.shader" />
+    <None Include="PointLight.shader" />
   </ItemGroup>
 </Project>

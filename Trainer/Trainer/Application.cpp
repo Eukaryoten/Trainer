@@ -15,23 +15,23 @@ Application::Application(HINSTANCE hInstance){
 
 	// Directional Light Initialization
 
-	light.dir = D3DXVECTOR4(0.0f, 0.0f, 1.0f, 0.0);
-	light.ambient = D3DXVECTOR4(0.2f, 0.2f, 0.2f, 1.0f);
-	light.diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	directionalLight.dir = D3DXVECTOR4(0.0f, 0.0f, 1.0f, 0.0);
+	directionalLight.amb = D3DXVECTOR4(0.2f, 0.2f, 0.2f, 1.0f);
+	directionalLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 
 
 	// Point Light Initialization
 
-	pLight.pos = D3DXVECTOR4(0.0f, 0.0f, 0.0f,0.0f);
-	pLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
-	pLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	pLight.att = D3DXVECTOR4(0.0f, 0.2f, 0.0f,0.0f);
-	pLight.range = 100.0f;
+	pointLight.pos = D3DXVECTOR4(0.0f, 0.0f, 0.0f,0.0f);
+	pointLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
+	pointLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	pointLight.att = D3DXVECTOR4(0.0f, 0.2f, 0.0f,0.0f);
+	pointLight.range = 100.0f;
 }
 
 bool Application::InitializeGame(){
 
-	directionalLight = new Shader(dev, L"DirectionalLight.shader", Vertex::NormalLayout);
+	directionalLightShader = new Shader(dev, L"DirectionalLight.shader", Vertex::NormalLayout);
 
 	gManager->LoadData();
 	gManager->LoadVertexBuffer(dev);
@@ -43,7 +43,7 @@ bool Application::InitializeGame(){
 	D3DXMatrixPerspectiveFovLH(&projection, 0.4*3.14f, (float)(SCREEN_WIDTH / SCREEN_HEIGHT), 1.0f, 1000.0f); // Set the cameras aspect ratio
 	D3DXMatrixLookAtLH(&view, &currentPosition, &currentTarget, &currentUp);
 
-	cbPerFrame.light = light;
+	cbPerFrame.light = directionalLight;
 	devCon->UpdateSubresource(devFrameConstantBuffer, 0, NULL, &cbPerFrame,0,0);
 	devCon->PSSetConstantBuffers(0, 1, &devFrameConstantBuffer);
 
@@ -62,7 +62,7 @@ void Application::Render(){
 	devCon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	directionalLight->SetShader(devCon);
+	directionalLightShader->SetShader(devCon);
 
 	test->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 

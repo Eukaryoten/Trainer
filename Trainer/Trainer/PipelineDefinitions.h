@@ -9,17 +9,9 @@ struct Light
 	Light() {
 		ZeroMemory(this, sizeof(Light));
 	}
-	D3DXVECTOR4 dir;
-	D3DXVECTOR4 ambient;
-	D3DXVECTOR4 diffuse;
-};
 
-struct PointLight
-{
-	PointLight() {
-		ZeroMemory(this, sizeof(PointLight));
-	}
 	D3DXVECTOR4 pos;
+	D3DXVECTOR4 dir;
 	D3DXVECTOR4 amb;
 	D3DXVECTOR4 dif;
 	D3DXVECTOR4 att;

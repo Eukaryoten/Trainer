@@ -4,9 +4,12 @@ cbuffer ObjectConstantBuffer {
 };
 
 struct Light {
+	float4 pos;
 	float4 dir;
 	float4 amb;
 	float4 dif;
+	float4 att;
+	float range;
 };
 
 cbuffer FrameConstantBuffer {

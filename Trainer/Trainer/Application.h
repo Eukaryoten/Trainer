@@ -21,14 +21,14 @@ private:
 
 	float rot;
 
-	Light light;
-	PointLight pLight;
+	Light directionalLight;
+	Light pointLight;
 
 	GameObject *test;
 	GeometryManager* gManager;
 
 	Shader* currentShader;
-	Shader* directionalLight;
+	Shader* directionalLightShader;
 
 	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space
 	D3DXMATRIX world;
