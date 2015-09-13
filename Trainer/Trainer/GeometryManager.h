@@ -12,6 +12,8 @@ template <class Layout>class GeometryManager
 public:
 	GeometryManager();
 
+	void Initialize(ID3D11Device *dev, ID3D11DeviceContext *devCon);
+
 	void LoadData();
 	void LoadVertexBuffer(ID3D11Device *dev);
 	void LoadIndexBuffer(ID3D11Device *dev);
@@ -64,6 +66,17 @@ GeometryManager<Layout>::GeometryManager() {
 	stride = sizeof(Layout);
 	offset = 0;
 
+}
+
+template <class Layout>
+void GeometryManager<Layout>::Initialize(ID3D11Device *dev, ID3D11DeviceContext *devCon) {
+
+	LoadData();
+	LoadVertexBuffer(dev);
+	LoadIndexBuffer(dev);
+
+	SetVertexBuffer(devCon);
+	SetIndexBuffer(devCon);
 }
 
 template <class Layout>
@@ -149,43 +162,75 @@ void GeometryManager<Layout>::AddCubeVertexData() {
 
 	Layout *tempArray = new Layout[cubeVertexCount];
 
-	// Front Face
+	D3DXVECTOR3 *positionData = new D3DXVECTOR3[cubeVertexCount];
+	D3DXVECTOR3 *colourData = new D3DXVECTOR3[cubeVertexCount];
+	D3DXVECTOR3 *textureData = new D3DXVECTOR3[cubeVertexCount];
+	D3DXVECTOR3 *normalData = new D3DXVECTOR3[cubeVertexCount];
 
-	tempArray[0] = Vertex::ColouredNormal(-1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, -1.0f);
-	tempArray[1] = Vertex::ColouredNormal(-1.0f, 1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, 1.0f, -1.0f);
-	tempArray[2] = Vertex::ColouredNormal(1.0f, 1.0f, -1.0f, 1.0, 0.0, 1.0, 1.0f, 1.0f, -1.0f);
-	tempArray[3] = Vertex::ColouredNormal(1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, 1.0f, -1.0f, -1.0f);
+	// -------------------------------------------------------------- Position and Colour --------------------------------------------------------- \\
+
+	positionData[0] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[0]   = D3DXVECTOR3( 1.0f, 1.0f,  1.0f);
+	positionData[1] = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[1]   = D3DXVECTOR3( 1.0f, 1.0f,  1.0f);
+	positionData[2] = D3DXVECTOR3( 1.0f,  1.0f, -1.0f); colourData[2]   = D3DXVECTOR3( 1.0f, 1.0f, 1.0f);
+	positionData[3] = D3DXVECTOR3( 1.0f, -1.0f, -1.0f); colourData[3]   = D3DXVECTOR3( 1.0f, 1.0f, 1.0f);
 
 	// Back Face
 
-	tempArray[4] = Vertex::ColouredNormal(-1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, 1.0f);
-	tempArray[5] = Vertex::ColouredNormal(1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0, 1.0f, -1.0f, 1.0f);
-	tempArray[6] = Vertex::ColouredNormal(1.0f, 1.0f, 1.0f, 1.0, 0.0, 1.0, 1.0f, 1.0f, 1.0f);
-	tempArray[7] = Vertex::ColouredNormal(-1.0f, 1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, 1.0f, 1.0f);
+	positionData[4] = D3DXVECTOR3(-1.0f, -1.0f, 1.0f); colourData[4]   = D3DXVECTOR3(1.0f, 1.0f, -1.0f);
+	positionData[5] = D3DXVECTOR3( 1.0f, -1.0f, 1.0f); colourData[5]   = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[6] = D3DXVECTOR3( 1.0f,  1.0f, 1.0f); colourData[6]   = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[7] = D3DXVECTOR3(-1.0f,  1.0f, 1.0f); colourData[7]   = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	// Top Face
-	tempArray[8] = Vertex::ColouredNormal(-1.0f, 1.0f, -1.0f, 0.0, 1.0, 1.0, -1.0f, 1.0f, -1.0f);
-	tempArray[9] = Vertex::ColouredNormal(-1.0f, 1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, 1.0f, 1.0f);
-	tempArray[10] = Vertex::ColouredNormal(1.0f, 1.0f, 1.0f, 1.0, 0.0, 1.0, 1.0f, 1.0f, 1.0f);
-	tempArray[11] = Vertex::ColouredNormal(1.0f, 1.0f, -1.0f, 1.0, 0.0, 1.0, 1.0f, 1.0f, -1.0f);
+	positionData[8]  = D3DXVECTOR3(-1.0f, 1.0f, -1.0f); colourData[8]  = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[9]  = D3DXVECTOR3(-1.0f, 1.0f,  1.0f); colourData[9]  = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[10] = D3DXVECTOR3( 1.0f, 1.0f,  1.0f); colourData[10] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[11] = D3DXVECTOR3( 1.0f, 1.0f, -1.0f); colourData[11] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	// Bottom Face
-	tempArray[12] = Vertex::ColouredNormal(-1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, -1.0f);
-	tempArray[13] = Vertex::ColouredNormal(1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, 1.0f, -1.0f, -1.0f);
-	tempArray[14] = Vertex::ColouredNormal(1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0, 1.0f, -1.0f, 1.0f);
-	tempArray[15] = Vertex::ColouredNormal(-1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, 1.0f);
+	positionData[12] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[12] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[13] = D3DXVECTOR3(1.0f,  -1.0f, -1.0f); colourData[13] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[14] = D3DXVECTOR3(1.0f,  -1.0f,  1.0f); colourData[14] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[15] = D3DXVECTOR3(-1.0f, -1.0f,  1.0f); colourData[15] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	// Left Face
-	tempArray[16] = Vertex::ColouredNormal(-1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, 1.0f);
-	tempArray[17] = Vertex::ColouredNormal(-1.0f, 1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, 1.0f, 1.0f);
-	tempArray[18] = Vertex::ColouredNormal(-1.0f, 1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, 1.0f, -1.0f);
-	tempArray[19] = Vertex::ColouredNormal(-1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, -1.0f);
+	positionData[16] = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);  colourData[16] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[17] = D3DXVECTOR3(-1.0f,  1.0f, 1.0f);  colourData[17] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[18] = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[18] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[19] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[19] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	// Right Face
-	tempArray[20] = Vertex::ColouredNormal(1.0f, -1.0f, -1.0f, 0.0, 0.0, 1.0, 1.0f, -1.0f, -1.0f);
-	tempArray[21] = Vertex::ColouredNormal(1.0f, 1.0f, -1.0f, 0.0, 0.0, 1.0, 1.0f, 1.0f, -1.0f);
-	tempArray[22] = Vertex::ColouredNormal(1.0f, 1.0f, 1.0f, 0.0, 0.0, 1.0, 1.0f, 1.0f, 1.0f);
-	tempArray[23] = Vertex::ColouredNormal(1.0f, -1.0f, 1.0f, 0.0, 0.0, 1.0, 1.0f, -1.0f, 1.0f);
+	positionData[20] = D3DXVECTOR3(1.0f, -1.0f, -1.0f); colourData[20] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[21] = D3DXVECTOR3(1.0f,  1.0f, -1.0f); colourData[21] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[22] = D3DXVECTOR3(1.0f,  1.0f,  1.0f); colourData[22] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	positionData[23] = D3DXVECTOR3(1.0f, -1.0f,  1.0f); colourData[23] = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+	
+
+	for (int i = 0; i < cubeVertexCount; i++) {
+
+		tempArray[i].pos = positionData[i];
+
+	}
+
+	if (sizeof(Layout) == sizeof(Vertex::Normal) || sizeof(Layout) == sizeof(Vertex::ColouredNormal)) {
+
+		normalData = positionData;
+
+		for (int i = 0; i < cubeVertexCount; i++)
+			tempArray[i].nor = positionData[i];
+
+	}
+
+	 if (sizeof(Layout) == sizeof(Vertex::ColouredNormal)) {
+
+		for (int i = 0; i < cubeVertexCount; i++)
+			tempArray[i].col = colourData[i];
+
+	} 
+
+	// -------------------------------------------------------------- Old --------------------------------------------------------- \\
+
 
 	for (int i = 0; i < cubeVertexCount; i++) vertexData.push_back(tempArray[i]);
 

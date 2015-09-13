@@ -19,13 +19,13 @@ cbuffer FrameConstantBuffer {
 
 struct VS_INPUT {
 	float4 pos	  : POSITION;
-	float3 color  : COLOR; // Added
+	float3 color  : COLOR;
 	float3 normal : NORMAL;
 };
 
 struct VS_OUTPUT {
 	float4 pos	  : SV_POSITION;
-	float3 color  : COLOR; // Added
+	float3 color  : COLOR;
 	float3 normal : NORMAL;
 };
 

@@ -34,13 +34,7 @@ bool Application::InitializeGame(){
 	directionalLightShader = new Shader(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
 	pointLightShader = new Shader(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
 
-
-	gManager->LoadData();
-	gManager->LoadVertexBuffer(dev);
-	gManager->LoadIndexBuffer(dev);
-
-	gManager->SetVertexBuffer(devCon);
-	gManager->SetIndexBuffer(devCon);
+	gManager->Initialize(dev,devCon);
 
 	D3DXMatrixPerspectiveFovLH(&projection, 0.4*3.14f, (float)(SCREEN_WIDTH / SCREEN_HEIGHT), 1.0f, 1000.0f); // Set the cameras aspect ratio
 	D3DXMatrixLookAtLH(&view, &currentPosition, &currentTarget, &currentUp);
