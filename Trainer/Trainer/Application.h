@@ -24,10 +24,13 @@ private:
 	Light directionalLight;
 	Light pointLight;
 
-	GameObject *test;
+	GameObject *player;
+	GameObject *enemy;
+	GameObject *floor;
+
 	GeometryManager* gManager;
 
-	Shader* currentShader;
+	Shader* pointLightShader;
 	Shader* directionalLightShader;
 
 	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space

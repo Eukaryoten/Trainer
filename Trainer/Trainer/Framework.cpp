@@ -245,6 +245,10 @@ bool Framework::InitializeD3D(){
 
 	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	constantBufferDesc.ByteWidth = sizeof(cbPerFrame);
+
+	if ((constantBufferDesc.ByteWidth % 16) != 0)
+		constantBufferDesc.ByteWidth += 16 - (constantBufferDesc.ByteWidth % 16);
+
 	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	constantBufferDesc.CPUAccessFlags = 0;
 	constantBufferDesc.MiscFlags = 0;

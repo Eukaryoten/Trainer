@@ -1,7 +1,13 @@
 #include "GeometryManager.h"
 
 
-GeometryManager::GeometryManager(){
+GeometryManager::GeometryManager() {
+
+}
+
+GeometryManager::GeometryManager(ID3D11Device *dev, Vertex::LayoutType layout){
+
+	layoutType = layout;
 
 	tempCubeDim.x = 1;
 	tempCubeDim.y = 1;
@@ -9,6 +15,30 @@ GeometryManager::GeometryManager(){
 
 	cubeVertexCount = 24;
 	cubeIndexCount = 36;
+
+	switch (layout) {
+	case Vertex::PositionLayout:
+		stride = sizeof(Vertex::Position);
+		break;
+	case Vertex::ColouredLayout:
+		stride = sizeof(Vertex::Coloured);
+		break;
+	case Vertex::TexturedLayout:
+		stride = sizeof(Vertex::Textured);
+		break;
+	case Vertex::NormalLayout:
+		stride = sizeof(Vertex::Normal);
+		break;
+	case Vertex::ColouredNormalLayout:
+		stride = sizeof(Vertex::ColouredNormal);
+		break;
+	case Vertex::TexturedNormalLayout:
+		stride = sizeof(Vertex::TexturedNormal);
+		break;
+	}
+
+	offset = 0;
+
 }
 
 
@@ -26,7 +56,30 @@ void GeometryManager::LoadVertexBuffer(ID3D11Device *dev){
 	ZeroMemory(&vertexBufferDesc, sizeof(vertexBufferDesc));
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBufferDesc.ByteWidth = sizeof(Vertex::Normals) * vertexData.size();
+
+	switch (layoutType) {
+	case Vertex::PositionLayout:
+		vertexBufferDesc.ByteWidth = sizeof(Vertex::Position) * positionData.size();
+		break;
+	case Vertex::ColouredLayout:
+		vertexBufferDesc.ByteWidth = sizeof(Vertex::Coloured) * colouredData.size();
+		break;
+	case Vertex::TexturedLayout:
+		vertexBufferDesc.ByteWidth = sizeof(Vertex::Textured) * texturedData.size();
+		break;
+	case Vertex::NormalLayout:
+		vertexBufferDesc.ByteWidth = sizeof(Vertex::Normal) * normalData.size();
+		break;
+	case Vertex::ColouredNormalLayout:
+		vertexBufferDesc.ByteWidth = sizeof(Vertex::ColouredNormal) * colouredNormalData.size();
+		break;
+	case Vertex::TexturedNormalLayout:
+		vertexBufferDesc.ByteWidth = sizeof(Vertex::TexturedNormal) * texturedNormalData.size();
+		break;
+	}
+
+	vertexBufferDesc.ByteWidth = sizeof(Vertex::ColouredNormal) * vertexData.size();
+
 	vertexBufferDesc.CPUAccessFlags = 0;
 	vertexBufferDesc.MiscFlags = 0;
 
@@ -55,9 +108,9 @@ void GeometryManager::LoadIndexBuffer(ID3D11Device *dev){
 
 }
 
-Vertex::Normals* GeometryManager::GetVertexData(){
+Vertex::ColouredNormal* GeometryManager::GetVertexData(){
 
-	Vertex::Normals* output = new Vertex::Normals[vertexData.size()];
+	Vertex::ColouredNormal* output = new Vertex::ColouredNormal[vertexData.size()];
 
 	for (int i = 0; i < vertexData.size(); i++){
 		output[i] = vertexData[i];
@@ -81,92 +134,45 @@ DWORD* GeometryManager::GetIndexData(){
 
 void GeometryManager::AddCubeVertexData(){
 
-	Vertex::Normals *tempArray = new Vertex::Normals[cubeVertexCount];
-
-	/*
-		// Front Face
-
-	tempArray[0] = Vertex::Position(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 0.0f, -1.0f, -1.0f, -1.0f);
-	tempArray[1] = Vertex::Position(-1.0f,  1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f,  1.0f, -1.0f);
-	tempArray[2] = Vertex::Position( 1.0f,  1.0f, -1.0f, 0.0f, 1.0f, 0.0f,  1.0f,  1.0f, -1.0f);
-	tempArray[3] = Vertex::Position( 1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f,  1.0f, -1.0f, -1.0f);
-
-		// Back Face
-
-	tempArray[4] = Vertex::Position(-1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f);
-	tempArray[5] = Vertex::Position( 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,  1.0f, -1.0f, 1.0f);
-	tempArray[6] = Vertex::Position( 1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 0.0f,  1.0f,  1.0f, 1.0f);
-	tempArray[7] = Vertex::Position(-1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, -1.0f,  1.0f, 1.0f);
-
-		// Top Face
-
-	tempArray[8]  = Vertex::Position(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, -1.0f, 1.0f, -1.0f);
-	tempArray[9]  = Vertex::Position(-1.0f, 1.0f,  1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f,  1.0f);
-	tempArray[10] = Vertex::Position( 1.0f, 1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f,  1.0f,  1.0f);
-	tempArray[11] = Vertex::Position( 1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 1.0f,  1.0f, -1.0f);
-
-		// Bottom Face
-
-	tempArray[12] = Vertex::Position(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, -1.0f, -1.0f, -1.0f);
-	tempArray[13] = Vertex::Position( 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f,  1.0f, -1.0f, -1.0f);
-	tempArray[14] = Vertex::Position( 1.0f, -1.0f,  1.0f, 0.0f, 0.0f, 0.0f,  1.0f, -1.0f, 1.0f);
-	tempArray[15] = Vertex::Position(-1.0f, -1.0f,  1.0f, 0.0f, 1.0f, 0.0f, -1.0f, -1.0f, 1.0f);
-
-		// Left Face
-
-	tempArray[16] = Vertex::Position(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, -1.0f, -1.0f, 1.0f);
-	tempArray[17] = Vertex::Position(-1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f);
-	tempArray[18] = Vertex::Position(-1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, -1.0f, 1.0f, -1.0f);
-	tempArray[19] = Vertex::Position(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, -1.0f, -1.0f, -1.0f);
-
-		// Right Face
-
-	tempArray[20] = Vertex::Position(1.0f, -1.0f, -1.0f, 0.0, 0.0f, 1.0f, 1.0f, -1.0f, -1.0f);
-	tempArray[21] = Vertex::Position(1.0f, 1.0f, -1.0f, 0.0, 0.0f, 0.0f, 1.0f, 1.0f, -1.0f);
-	tempArray[22] = Vertex::Position(1.0f, 1.0f, 1.0f, 0.0, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f);
-	tempArray[23] = Vertex::Position(1.0f, -1.0f, 1.0f, 0.0, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f); */
+	Vertex::ColouredNormal *tempArray = new Vertex::ColouredNormal[cubeVertexCount];
 
 	// Front Face
 
-	tempArray[0] = Vertex::Normals(-1.0f, -1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
-	tempArray[1] = Vertex::Normals(-1.0f,  1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
-	tempArray[2] = Vertex::Normals( 1.0f,  1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
-	tempArray[3] = Vertex::Normals( 1.0f, -1.0f, -1.0f, 0.0f,  0.0f, -1.0f);
+	tempArray[0]  = Vertex::ColouredNormal(-1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, -1.0f);
+	tempArray[1]  = Vertex::ColouredNormal(-1.0f,  1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f,  1.0f, -1.0f);
+	tempArray[2]  = Vertex::ColouredNormal( 1.0f,  1.0f, -1.0f, 1.0, 0.0, 1.0,  1.0f,  1.0f, -1.0f);
+	tempArray[3]  = Vertex::ColouredNormal( 1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0,  1.0f, -1.0f, -1.0f);
 
 		// Back Face
 
-	tempArray[4] = Vertex::Normals(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	tempArray[5] = Vertex::Normals( 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	tempArray[6] = Vertex::Normals( 1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
-	tempArray[7] = Vertex::Normals(-1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+	tempArray[4]  = Vertex::ColouredNormal(-1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, 1.0f);
+	tempArray[5]  = Vertex::ColouredNormal( 1.0f, -1.0f, 1.0f, 1.0, 0.0, 1.0,  1.0f, -1.0f, 1.0f);
+	tempArray[6]  = Vertex::ColouredNormal( 1.0f,  1.0f, 1.0f, 1.0, 0.0, 1.0,  1.0f,  1.0f, 1.0f);
+	tempArray[7]  = Vertex::ColouredNormal(-1.0f,  1.0f, 1.0f, 1.0, 0.0, 1.0, -1.0f,  1.0f, 1.0f);
 
 		// Top Face
-
-	tempArray[8]  = Vertex::Normals(-1.0f, 1.0f, -1.0f,  0.0f,  1.0f, 0.0f);
-	tempArray[9]  = Vertex::Normals(-1.0f, 1.0f,  1.0f,  0.0f,  1.0f, 0.0f);
-	tempArray[10] = Vertex::Normals( 1.0f, 1.0f,  1.0f,  0.0f,  1.0f, 0.0f);
-	tempArray[11] = Vertex::Normals( 1.0f, 1.0f, -1.0f,  0.0f,  1.0f, 0.0f);
+	tempArray[8]  = Vertex::ColouredNormal(-1.0f, 1.0f, -1.0f,  0.0, 1.0, 1.0, -1.0f, 1.0f, -1.0f);
+	tempArray[9]  = Vertex::ColouredNormal(-1.0f, 1.0f,  1.0f,  1.0, 0.0, 1.0, -1.0f, 1.0f,  1.0f);
+	tempArray[10] = Vertex::ColouredNormal( 1.0f, 1.0f,  1.0f,  1.0, 0.0, 1.0,  1.0f, 1.0f,  1.0f);
+	tempArray[11] = Vertex::ColouredNormal( 1.0f, 1.0f, -1.0f,  1.0, 0.0, 1.0,  1.0f, 1.0f, -1.0f);
 
 		// Bottom Face
-
-	tempArray[12] = Vertex::Normals(-1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f);
-	tempArray[13] = Vertex::Normals( 1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f);
-	tempArray[14] = Vertex::Normals( 1.0f, -1.0f,  1.0f, 0.0f, -1.0f, 0.0f);
-	tempArray[15] = Vertex::Normals(-1.0f, -1.0f,  1.0f, 0.0f, -1.0f, 0.0f);
+	tempArray[12] = Vertex::ColouredNormal(-1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, -1.0f);
+	tempArray[13] = Vertex::ColouredNormal( 1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0,  1.0f, -1.0f, -1.0f);
+	tempArray[14] = Vertex::ColouredNormal( 1.0f, -1.0f,  1.0f, 1.0, 0.0, 1.0,  1.0f, -1.0f,  1.0f);
+	tempArray[15] = Vertex::ColouredNormal(-1.0f, -1.0f,  1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f,  1.0f);
 
 		// Left Face
-
-	tempArray[16] = Vertex::Normals(-1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 0.0f);
-	tempArray[17] = Vertex::Normals(-1.0f, 1.0f,  1.0f, -1.0f, 0.0f, 0.0f);
-	tempArray[18] = Vertex::Normals(-1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f);
-	tempArray[19] = Vertex::Normals(-1.0f, -1.0f, -1.0f,-1.0f, 0.0f, 0.0f);
+	tempArray[16] = Vertex::ColouredNormal(-1.0f, -1.0f,  1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f,  1.0f);
+	tempArray[17] = Vertex::ColouredNormal(-1.0f,  1.0f,  1.0f, 1.0, 0.0, 1.0, -1.0f,  1.0f,  1.0f);
+	tempArray[18] = Vertex::ColouredNormal(-1.0f,  1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f,  1.0f, -1.0f);
+	tempArray[19] = Vertex::ColouredNormal(-1.0f, -1.0f, -1.0f, 1.0, 0.0, 1.0, -1.0f, -1.0f, -1.0f);
 
 		// Right Face
-
-	tempArray[20] = Vertex::Normals(1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
-	tempArray[21] = Vertex::Normals(1.0f,  1.0f, -1.0f, 1.0f, 0.0f, 0.0f);
-	tempArray[22] = Vertex::Normals(1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 0.0f);
-	tempArray[23] = Vertex::Normals(1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f);
+	tempArray[20] = Vertex::ColouredNormal( 1.0f, -1.0f, -1.0f, 0.0, 0.0, 1.0, 1.0f, -1.0f, -1.0f);
+	tempArray[21] = Vertex::ColouredNormal( 1.0f,  1.0f, -1.0f, 0.0, 0.0, 1.0, 1.0f,  1.0f, -1.0f);
+	tempArray[22] = Vertex::ColouredNormal( 1.0f,  1.0f,  1.0f, 0.0, 0.0, 1.0, 1.0f,  1.0f,  1.0f);
+	tempArray[23] = Vertex::ColouredNormal( 1.0f, -1.0f,  1.0f, 0.0, 0.0, 1.0, 1.0f, -1.0f,  1.0f);
 
 	for (int i = 0; i < cubeVertexCount; i++) vertexData.push_back(tempArray[i]);
 
