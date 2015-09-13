@@ -3,7 +3,7 @@
 Application::Application(HINSTANCE hInstance){
 
 	timer = new Timer();
-	gManager = new GeometryManager(dev, Vertex::ColouredNormalLayout);
+	gManager = new GeometryManager<Vertex::ColouredNormal>();
 	player = new GameObject();
 	rot = 0;
 

@@ -28,7 +28,7 @@ private:
 	GameObject *enemy;
 	GameObject *floor;
 
-	GeometryManager* gManager;
+	GeometryManager<Vertex::ColouredNormal>* gManager;
 
 	Shader* pointLightShader;
 	Shader* directionalLightShader;
