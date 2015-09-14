@@ -155,7 +155,6 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GeometryManager.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -163,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ApplicationDefinitions.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Compile.h" />
     <ClInclude Include="Framework.h" />
@@ -174,7 +174,8 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DefaultShader.shader" />
+    <None Include="DirectionalLight.shader" />
+    <None Include="PointLight.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

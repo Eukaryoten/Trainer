@@ -1,7 +1,9 @@
 #pragma once
+
 #include "Framework.h"
-#include "GeometryManager.h"
+#include "Shader.h"
 #include "GameObject.h"
+#include "GeometryManager.h"
 
 class Application : public Framework
 {
@@ -19,15 +21,17 @@ private:
 
 	float rot;
 
-	Light light;
-	PointLight pLight;
+	Light directionalLight;
+	Light pointLight;
 
-	GeometryManager* gManager;
+	GameObject *player;
+	GameObject *enemy;
+	GameObject *floor;
 
-	GameObject *test;
+	GeometryManager<Vertex::ColouredNormal>* gManager;
 
-	Shader* currentShader;
-	Shader* defaultShader;
+	Shader* pointLightShader;
+	Shader* directionalLightShader;
 
 	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space
 	D3DXMATRIX world;

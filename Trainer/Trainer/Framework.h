@@ -1,4 +1,15 @@
-#include "Compile.h"
+#pragma once
+#include <Windows.h>
+#include <d3d11.h>
+#include <d3dx11.h>
+#include <d3dx10.h>
+#include <time.h>
+#include <string>
+#include <sstream>
+
+#include "Timer.h"
+#include "PipelineDefinitions.h"
+#include "ApplicationDefinitions.h"
 
 class Framework
 {
@@ -35,8 +46,8 @@ protected:
 
 	ID3D11InputLayout *inputLayout;
 
-	ID3D11Buffer *constantObjectBuffer;
-	ID3D11Buffer *constantFrameBuffer;
+	ID3D11Buffer *devObjectConstantBuffer;
+	ID3D11Buffer *devFrameConstantBuffer;
 
 	ObjectConstantBuffer cbPerObj; // Constant buffer per object
 	FrameConstantBuffer cbPerFrame; // Constant buffer per frame

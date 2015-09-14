@@ -5,10 +5,6 @@ Base::Base(){
 
 	// Initialize attributes
 
-	defaultRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f); // Set default Right direction to be positive 1 in the x-axis
-	defaultUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f); // Set default Up direction to be positive 1 in the y-axis
-	defaultForward = D3DXVECTOR3(0.0f, 0.0f, 1.0f); // Set default Forward direction to be positive 1 in the z-axis
-
 	D3DXMatrixIdentity(&world);
 	D3DXMatrixIdentity(&rotationMatrix);
 	D3DXMatrixIdentity(&translationMatrix);
@@ -17,36 +13,31 @@ Base::Base(){
 	currentRotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	currentPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	currentRight = defaultRight;
-	currentUp = defaultUp;
-	currentForward = defaultForward;
-
 }
+void Base::SetRotation(D3DXVECTOR3 input){
 
-#pragma region Set Functions
-
-void Base::SetRotationVector(D3DXVECTOR3 input){
 	currentRotation = input;
-}
-void Base::SetCurrentForward(D3DXVECTOR3 input){
-	currentForward = input;
-}
-void Base::SetCurrentRight(D3DXVECTOR3 input){
-	currentRight = input;
-}
-void Base::SetLeftRightSpeed(float speed){
-	moveLeftRight += speed;
-}
-void Base::SetBackForwardSpeed(float speed){
-	moveBackForward += speed;
+
+	D3DXMATRIX xRot;
+	D3DXMATRIX yRot;
+	D3DXMATRIX zRot;
+
+	D3DXMatrixRotationX(&xRot, currentRotation.x);
+	D3DXMatrixRotationY(&yRot, currentRotation.y);
+	D3DXMatrixRotationZ(&zRot, currentRotation.z);
+
+	rotationMatrix = xRot * yRot * zRot;
+
 }
 void Base::SetPosition(D3DXVECTOR3 pos){
 	currentPosition = pos;
+	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
 }
 
-#pragma endregion
-
-#pragma region Get Functions
+void Base::SetScale(D3DXVECTOR3 scale) {
+	currentScale = scale;
+	D3DXMatrixScaling(&scaleMatrix, currentScale.x, currentScale.y, currentScale.z);
+}
 
 D3DXMATRIX Base::GetMatrix(){
 	return world;
@@ -54,29 +45,11 @@ D3DXMATRIX Base::GetMatrix(){
 D3DXVECTOR3 Base::GetPosition(){
 	return currentPosition;
 }
-D3DXVECTOR3 Base::GetRightVector(){
-	return currentRight;
-}
-void Base::GetPosition(D3DXVECTOR3& pos){
-	pos = currentPosition;
-}
-D3DXVECTOR3 Base::GetFacingVector(){
-	return currentForward;
-}
 
-#pragma endregion
-
-#pragma region Update Functions
-
-#pragma endregion
-
-#pragma region Increment Functions
-
-void Base::TranslateCurrentPosition(D3DXVECTOR3 pos){
+void Base::TranslatePosition(D3DXVECTOR3 pos){
 	currentPosition += pos;
+	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
 }
-
-#pragma endregion
 
 Base::~Base(){
 }

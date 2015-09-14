@@ -13,14 +13,20 @@ Shader::Shader(ID3D11Device *dev, LPCTSTR shaderSourceFile, Vertex::LayoutType l
 	case Vertex::PositionLayout:
 		dev->CreateInputLayout(InputLayoutDesc::positionLayout, 1, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
 		break;
+	case Vertex::ColouredLayout:
+		dev->CreateInputLayout(InputLayoutDesc::colouredLayout, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
+		break;
 	case Vertex::TexturedLayout:
 		dev->CreateInputLayout(InputLayoutDesc::texturedLayout, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
 		break;
 	case Vertex::NormalLayout:
-		dev->CreateInputLayout(InputLayoutDesc::normalsLayout, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
+		dev->CreateInputLayout(InputLayoutDesc::normalLayout, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
 		break;
-	case Vertex::CompleteLayout:
-		dev->CreateInputLayout(InputLayoutDesc::completeLayout, 3, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
+	case Vertex::ColouredNormalLayout:
+		dev->CreateInputLayout(InputLayoutDesc::colouredNormalLayout, 3, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
+		break;
+	case Vertex::TexturedNormalLayout:
+		dev->CreateInputLayout(InputLayoutDesc::texturedNormalLayout, 3, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &inputLayout);
 		break;
 	}
 
