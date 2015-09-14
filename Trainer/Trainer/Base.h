@@ -13,6 +13,7 @@ public:
 
 	void SetRotation(D3DXVECTOR3); // Sets the rotation vector used to transform the objects matrix
 	void SetPosition(D3DXVECTOR3); // Sets the currentPosition attribute by a vector argument
+	void SetScale(D3DXVECTOR3);
 	void TranslatePosition(D3DXVECTOR3); // Increments the currentPosition attribute by vector argument
 
 	D3DXMATRIX GetMatrix(); // Returns the objects local matrix
@@ -36,6 +37,7 @@ protected:
 
 	D3DXVECTOR3 currentRotation; // Defines and offset orientation of the object
 	D3DXVECTOR3 currentPosition; // Defines the objects current position
+	D3DXVECTOR3 currentScale;
 
 };
 

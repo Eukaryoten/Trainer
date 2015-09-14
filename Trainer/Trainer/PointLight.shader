@@ -1,6 +1,7 @@
 cbuffer ObjectConstantBuffer {
 	float4x4 WVP;
 	float4x4 world;
+	float3 colour;
 };
 
 struct Light {
@@ -19,7 +20,6 @@ cbuffer FrameConstantBuffer {
 
 struct VS_INPUT {
 	float4 pos	  : POSITION;
-	float3 color  : COLOR;
 	float3 normal : NORMAL;
 };
 
@@ -37,7 +37,7 @@ VS_OUTPUT VS(VS_INPUT input) { // Vertex shader stage
 	output.pos = mul(input.pos,WVP);
 	output.world = mul(input.pos, world);
 	output.normal = mul(input.normal, world);
-	output.color = input.color;
+	output.color = colour;
 
 	return output;
 

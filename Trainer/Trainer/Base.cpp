@@ -34,6 +34,11 @@ void Base::SetPosition(D3DXVECTOR3 pos){
 	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
 }
 
+void Base::SetScale(D3DXVECTOR3 scale) {
+	currentScale = scale;
+	D3DXMatrixScaling(&scaleMatrix, currentScale.x, currentScale.y, currentScale.z);
+}
+
 D3DXMATRIX Base::GetMatrix(){
 	return world;
 }

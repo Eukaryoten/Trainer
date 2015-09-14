@@ -21,6 +21,7 @@ struct Light
 struct ObjectConstantBuffer{
 	D3DXMATRIX WVP;
 	D3DXMATRIX world;
+	D3DXVECTOR3 colour;
 };
 
 struct FrameConstantBuffer {
