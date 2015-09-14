@@ -7,7 +7,7 @@ Application::Application(HINSTANCE hInstance){
 
 	player = new GameObject(0.0,0.5,1.0);
 	enemy  = new GameObject(1.0,0.0,0.0);
-	floor  = new GameObject(1.0,1.0,1.0);
+	floor  = new GameObject(1.0,0.5,0.0);
 
 	// Temporary Camera Initialization
 
@@ -24,11 +24,11 @@ Application::Application(HINSTANCE hInstance){
 
 	// Point Light Initialization
 
-	pointLight.pos = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
+	pointLight.pos = D3DXVECTOR4(0.0f, 1000.0f, -40.0f, 0.0f);
 	pointLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
 	pointLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	pointLight.att = D3DXVECTOR4(0.0f, 0.4f, 0.1f, 0.0f);
-	pointLight.range = 100.0f;
+	pointLight.att = D3DXVECTOR4(0.5f, 0.0f, 0.0f, 0.0f);
+	pointLight.range = 10000.0f;
 }
 
 bool Application::InitializeGame(){
@@ -43,7 +43,7 @@ bool Application::InitializeGame(){
 	player->SetScale(D3DXVECTOR3(0.3,0.3,0.3));
 	enemy->SetScale(D3DXVECTOR3(0.3, 0.3, 0.3));
 
-	floor->SetScale(D3DXVECTOR3(10.0, 0.2, 5.0));
+	floor->SetScale(D3DXVECTOR3(5.0, 0.2, 2.0));
 
 	gManager->Initialize(dev,devCon);
 
