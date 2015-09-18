@@ -45,7 +45,7 @@ VS_OUTPUT VS(VS_INPUT input) { // Vertex shader stage
 
 float4 PS(VS_OUTPUT input) : SV_TARGET{ // Pixel shader stage
 
-	input.normal = normalize(input.normal);
+	//input.normal = normalize(input.normal);
 
 	float4 diffuse = float4(input.color, 0.0);
 	float3 finalColor = float3(0.0f, 0.0f, 0.0f);

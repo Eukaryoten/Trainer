@@ -73,6 +73,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)\lib;$(LibraryPath)</LibraryPath>
+    <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

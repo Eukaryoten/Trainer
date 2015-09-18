@@ -7,7 +7,7 @@ Application::Application(HINSTANCE hInstance){
 
 	player = new GameObject(0.0,0.5,1.0);
 	enemy  = new GameObject(1.0,0.0,0.0);
-	floor  = new GameObject(1.0,1.0,1.0);
+	floor  = new GameObject(1.0,0.5,0.0);
 
 	// Temporary Camera Initialization
 
@@ -24,11 +24,11 @@ Application::Application(HINSTANCE hInstance){
 
 	// Point Light Initialization
 
-	pointLight.pos = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
+	pointLight.pos = D3DXVECTOR4(0.0f, 1000.0f, -40.0f, 0.0f);
 	pointLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
 	pointLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	pointLight.att = D3DXVECTOR4(0.0f, 0.4f, 0.1f, 0.0f);
-	pointLight.range = 100.0f;
+	pointLight.att = D3DXVECTOR4(0.5f, 0.0f, 0.0f, 0.0f);
+	pointLight.range = 10000.0f;
 }
 
 bool Application::InitializeGame(){
@@ -36,16 +36,16 @@ bool Application::InitializeGame(){
 	directionalLightShader = new Shader(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
 	pointLightShader = new Shader(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
 
-	player->SetPosition(D3DXVECTOR3(3,0.0,0.0));
-	enemy->SetPosition(D3DXVECTOR3(-3,0.0,0.0));
-	floor->SetPosition(D3DXVECTOR3(0.0,-1.0, 0.0));
+	player->SetPosition(D3DXVECTOR3( 0.0, 0.0, 0.0));
+	enemy ->SetPosition(D3DXVECTOR3(-3.0, 2.0, 0.0));
+	floor ->SetPosition(D3DXVECTOR3( 0.0,-1.0, 0.0));
 
-	player->SetScale(D3DXVECTOR3(0.3,0.3,0.3));
-	enemy->SetScale(D3DXVECTOR3(0.3, 0.3, 0.3));
+	player->SetScale(D3DXVECTOR3(0.3, 0.3, 0.3));
+	enemy ->SetScale(D3DXVECTOR3(0.3, 0.3, 0.3));
 
-	floor->SetScale(D3DXVECTOR3(10.0, 0.2, 5.0));
+	floor ->SetScale(D3DXVECTOR3(10.0, 0.2, 4.0));
 
-	gManager->Initialize(dev,devCon);
+	gManager->Initialize(dev, devCon);
 
 	D3DXMatrixPerspectiveFovLH(&projection, 0.4*3.14f, (float)(SCREEN_WIDTH / SCREEN_HEIGHT), 1.0f, 1000.0f); // Set the cameras aspect ratio
 	D3DXMatrixLookAtLH(&view, &currentPosition, &currentTarget, &currentUp);
@@ -70,11 +70,15 @@ void Application::Render(){
 	devCon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	// Drawing starts here
+
 	pointLightShader->SetShader(devCon);
 
 	player->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 	enemy->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 	floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
+
+	// End of drawing
 
 	swapChain->Present(0, 0);
 

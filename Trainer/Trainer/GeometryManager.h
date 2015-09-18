@@ -166,43 +166,43 @@ void GeometryManager<Layout>::AddCubeVertexData() {
 	D3DXVECTOR3 *colourData = new D3DXVECTOR3[cubeVertexCount];
 	D3DXVECTOR3 *normalData = new D3DXVECTOR3[cubeVertexCount];
 
-	// -------------------------------------------------------------- Position and Colour --------------------------------------------------------- \\
+	// -------------------------------------------------------------- Position, Normals & Colour --------------------------------------------------------- \\
 
-	positionData[0] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[0]   = D3DXVECTOR3( 1.0f, 0.0f, 0.0f);
-	positionData[1] = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[1]   = D3DXVECTOR3( 1.0f, 1.0f, 0.0f);
-	positionData[2] = D3DXVECTOR3( 1.0f,  1.0f, -1.0f); colourData[2]   = D3DXVECTOR3( 1.0f, 0.0f, 0.0f);
-	positionData[3] = D3DXVECTOR3( 1.0f, -1.0f, -1.0f); colourData[3]   = D3DXVECTOR3( 0.0f, 1.0f, 1.0f);
+	positionData[0]  = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[0]  = D3DXVECTOR3( 1.0f, 0.0f, 0.0f); normalData[0]  = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
+	positionData[1]  = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[1]  = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[1]  = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
+	positionData[2]  = D3DXVECTOR3( 1.0f,  1.0f, -1.0f); colourData[2]  = D3DXVECTOR3( 1.0f, 0.0f, 0.0f); normalData[2]  = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
+	positionData[3]  = D3DXVECTOR3( 1.0f, -1.0f, -1.0f); colourData[3]  = D3DXVECTOR3( 0.0f, 1.0f, 1.0f); normalData[3]  = D3DXVECTOR3( 0.0f,  0.0f, -1.0f);
 
 	// Back Face
 
-	positionData[4] = D3DXVECTOR3(-1.0f, -1.0f, 1.0f); colourData[4]   = D3DXVECTOR3(0.0f, 1.0f, 1.0f);
-	positionData[5] = D3DXVECTOR3( 1.0f, -1.0f, 1.0f); colourData[5]   = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	positionData[6] = D3DXVECTOR3( 1.0f,  1.0f, 1.0f); colourData[6]   = D3DXVECTOR3(0.0f, 1.0f, 1.0f);
-	positionData[7] = D3DXVECTOR3(-1.0f,  1.0f, 1.0f); colourData[7]   = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
+	positionData[4]  = D3DXVECTOR3(-1.0f, -1.0f,  1.0f); colourData[4]  = D3DXVECTOR3( 0.0f, 1.0f, 1.0f); normalData[4]  = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
+	positionData[5]  = D3DXVECTOR3( 1.0f, -1.0f,  1.0f); colourData[5]  = D3DXVECTOR3( 1.0f, 0.0f, 0.0f); normalData[5]  = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
+	positionData[6]  = D3DXVECTOR3( 1.0f,  1.0f,  1.0f); colourData[6]  = D3DXVECTOR3( 0.0f, 1.0f, 1.0f); normalData[6]  = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
+	positionData[7]  = D3DXVECTOR3(-1.0f,  1.0f,  1.0f); colourData[7]  = D3DXVECTOR3( 1.0f, 0.0f, 1.0f); normalData[7]  = D3DXVECTOR3( 0.0f,  0.0f,  1.0f);
 
 	// Top Face
-	positionData[8]  = D3DXVECTOR3(-1.0f, 1.0f, -1.0f); colourData[8]  = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	positionData[9]  = D3DXVECTOR3(-1.0f, 1.0f,  1.0f); colourData[9]  = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	positionData[10] = D3DXVECTOR3( 1.0f, 1.0f,  1.0f); colourData[10] = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	positionData[11] = D3DXVECTOR3( 1.0f, 1.0f, -1.0f); colourData[11] = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+	positionData[8]  = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[8]  = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[8]  = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
+	positionData[9]  = D3DXVECTOR3(-1.0f,  1.0f,  1.0f); colourData[9]  = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[9]  = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
+	positionData[10] = D3DXVECTOR3( 1.0f,  1.0f,  1.0f); colourData[10] = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[10] = D3DXVECTOR3( 0.0f,  1.0f,  0.0f);
+	positionData[11] = D3DXVECTOR3( 1.0f,  1.0f, -1.0f); colourData[11] = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[11] = D3DXVECTOR3( 0.0f,  1.0f,  0.0f); 
 
 	// Bottom Face
-	positionData[12] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[12] = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	positionData[13] = D3DXVECTOR3(1.0f,  -1.0f, -1.0f); colourData[13] = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	positionData[14] = D3DXVECTOR3(1.0f,  -1.0f,  1.0f); colourData[14] = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
-	positionData[15] = D3DXVECTOR3(-1.0f, -1.0f,  1.0f); colourData[15] = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
+	positionData[12] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[12] = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[12] = D3DXVECTOR3( 0.0f, -1.0f,  0.0f);
+	positionData[13] = D3DXVECTOR3( 1.0f, -1.0f, -1.0f); colourData[13] = D3DXVECTOR3( 1.0f, 1.0f, 0.0f); normalData[13] = D3DXVECTOR3( 0.0f, -1.0f,  0.0f); 
+	positionData[14] = D3DXVECTOR3( 1.0f, -1.0f,  1.0f); colourData[14] = D3DXVECTOR3( 1.0f, 0.0f, 1.0f); normalData[14] = D3DXVECTOR3( 0.0f, -1.0f,  0.0f); 
+	positionData[15] = D3DXVECTOR3(-1.0f, -1.0f,  1.0f); colourData[15] = D3DXVECTOR3( 1.0f, 0.0f, 1.0f); normalData[15] = D3DXVECTOR3( 0.0f, -1.0f,  0.0f);
 
 	// Left Face
-	positionData[16] = D3DXVECTOR3(-1.0f, -1.0f, 1.0f);  colourData[16] = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
-	positionData[17] = D3DXVECTOR3(-1.0f,  1.0f, 1.0f);  colourData[17] = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	positionData[18] = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[18] = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
-	positionData[19] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[19] = D3DXVECTOR3(0.0f, 0.0f, 1.0f);
+	positionData[16] = D3DXVECTOR3(-1.0f, -1.0f,  1.0f); colourData[16] = D3DXVECTOR3( 1.0f, 0.0f, 1.0f); normalData[16] = D3DXVECTOR3( -1.0f, 0.0f,  0.0f); 
+	positionData[17] = D3DXVECTOR3(-1.0f,  1.0f,  1.0f); colourData[17] = D3DXVECTOR3( 1.0f, 0.0f, 0.0f); normalData[17] = D3DXVECTOR3( -1.0f, 0.0f,  0.0f);
+	positionData[18] = D3DXVECTOR3(-1.0f,  1.0f, -1.0f); colourData[18] = D3DXVECTOR3( 1.0f, 0.0f, 1.0f); normalData[18] = D3DXVECTOR3( -1.0f, 0.0f,  0.0f); 
+	positionData[19] = D3DXVECTOR3(-1.0f, -1.0f, -1.0f); colourData[19] = D3DXVECTOR3( 0.0f, 0.0f, 1.0f); normalData[19] = D3DXVECTOR3( -1.0f, 0.0f,  0.0f);
 
 	// Right Face
-	positionData[20] = D3DXVECTOR3(1.0f, -1.0f, -1.0f); colourData[20] = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
-	positionData[21] = D3DXVECTOR3(1.0f,  1.0f, -1.0f); colourData[21] = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	positionData[22] = D3DXVECTOR3(1.0f,  1.0f,  1.0f); colourData[22] = D3DXVECTOR3(1.0f, 0.0f, 1.0f);
-	positionData[23] = D3DXVECTOR3(1.0f, -1.0f,  1.0f); colourData[23] = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+	positionData[20] = D3DXVECTOR3( 1.0f, -1.0f, -1.0f); colourData[20] = D3DXVECTOR3 (1.0f, 0.0f, 1.0f); normalData[20] = D3DXVECTOR3( 1.0f,  0.0f,  0.0f); 
+	positionData[21] = D3DXVECTOR3( 1.0f,  1.0f, -1.0f); colourData[21] = D3DXVECTOR3( 0.0f, 1.0f, 0.0f); normalData[21] = D3DXVECTOR3( 1.0f,  0.0f,  0.0f); 
+	positionData[22] = D3DXVECTOR3( 1.0f,  1.0f,  1.0f); colourData[22] = D3DXVECTOR3( 1.0f, 0.0f, 1.0f); normalData[22] = D3DXVECTOR3( 1.0f,  0.0f,  0.0f);
+	positionData[23] = D3DXVECTOR3( 1.0f, -1.0f,  1.0f); colourData[23] = D3DXVECTOR3( 1.0f, 0.0f, 0.0f); normalData[23] = D3DXVECTOR3( 1.0f,  0.0f,  0.0f);
 
 	
 
@@ -213,8 +213,6 @@ void GeometryManager<Layout>::AddCubeVertexData() {
 	}
 
 	if (sizeof(Layout) == sizeof(Vertex::Normal) || sizeof(Layout) == sizeof(Vertex::ColouredNormal)) {
-
-		normalData = positionData;
 
 		for (int i = 0; i < cubeVertexCount; i++)
 			tempArray[i].nor = positionData[i];
