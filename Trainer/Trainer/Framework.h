@@ -1,4 +1,15 @@
-#include "Compile.h"
+#pragma once
+#include <Windows.h>
+#include <d3d11.h>
+#include <d3dx11.h>
+#include <d3dx10.h>
+#include <time.h>
+#include <string>
+#include <sstream>
+
+#include "Timer.h"
+#include "PipelineDefinitions.h"
+#include "ApplicationDefinitions.h"
 
 class Framework
 {
@@ -33,9 +44,13 @@ public:
 	
 protected:
 
-	ObjectConstantBuffer cbPerObj; // Constant buffer structure
-
 	ID3D11InputLayout *inputLayout;
+
+	ID3D11Buffer *devObjectConstantBuffer;
+	ID3D11Buffer *devFrameConstantBuffer;
+
+	ObjectConstantBuffer cbPerObj; // Constant buffer per object
+	FrameConstantBuffer cbPerFrame; // Constant buffer per frame
 
 	Timer* timer;
 	std::wstring applicationTitle; 
@@ -54,7 +69,7 @@ protected:
 	ID3D11DepthStencilView* depthStencilView;
 	ID3D11Texture2D* depthStencilBuffer;
 	ID3D11SamplerState* samplerState;
-	ID3D11Buffer *defaultConstantBuffer;
+	
 
 };
 

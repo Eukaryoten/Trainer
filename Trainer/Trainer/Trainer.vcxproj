@@ -92,11 +92,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(IncludePath)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;dxguid.lib;dinput8.lib;d3dx11.lib;dxerr.lib;assimp.lib;FW1FontWrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\lib;$(LibraryPath)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -156,8 +158,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GeometryManager.cpp" />
-    <ClCompile Include="ModelObject.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -165,18 +166,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ApplicationDefinitions.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Compile.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GeometryManager.h" />
-    <ClInclude Include="ModelObject.h" />
     <ClInclude Include="PipelineDefinitions.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DefaultShader.shader" />
+    <None Include="DirectionalLight.shader" />
+    <None Include="PointLight.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

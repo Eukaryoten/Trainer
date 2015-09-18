@@ -221,7 +221,7 @@ bool Framework::InitializeD3D(){
 	devCon->PSSetSamplers(0, 1, &samplerState);
 	devCon->RSSetViewports(1, &viewport);
 
-	// Create constant buffer
+	// Create object constant buffer
 
 	D3D11_BUFFER_DESC constantBufferDesc;
 	ZeroMemory(&constantBufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -234,10 +234,26 @@ bool Framework::InitializeD3D(){
 	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	constantBufferDesc.CPUAccessFlags = 0;
 	constantBufferDesc.MiscFlags = 0;
-	dev->CreateBuffer(&constantBufferDesc, NULL, &defaultConstantBuffer);
+	dev->CreateBuffer(&constantBufferDesc, NULL, &devObjectConstantBuffer);
 
-	devCon->VSSetConstantBuffers(0, 1, &defaultConstantBuffer);
-	devCon->PSSetConstantBuffers(0, 1, &defaultConstantBuffer);
+	devCon->VSSetConstantBuffers(0, 1, &devObjectConstantBuffer);
+	devCon->PSSetConstantBuffers(0, 1, &devObjectConstantBuffer);
+
+	// Create frame constant buffer
+
+	ZeroMemory(&constantBufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	constantBufferDesc.ByteWidth = sizeof(cbPerFrame);
+
+	if ((constantBufferDesc.ByteWidth % 16) != 0)
+		constantBufferDesc.ByteWidth += 16 - (constantBufferDesc.ByteWidth % 16);
+
+	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	constantBufferDesc.CPUAccessFlags = 0;
+	constantBufferDesc.MiscFlags = 0;
+
+	dev->CreateBuffer(&constantBufferDesc, NULL, &devFrameConstantBuffer);
 
 	return true;
 }
@@ -274,7 +290,9 @@ void Framework::CleanD3D(){
 
 	// Free Memory and Pointers
 
-	defaultConstantBuffer->Release();
+	devObjectConstantBuffer->Release();
+	devFrameConstantBuffer->Release();
+
 	swapChain->SetFullscreenState(FALSE, NULL);
 	swapChain->Release();
 	backBuffer->Release();
