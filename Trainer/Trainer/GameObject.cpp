@@ -16,6 +16,7 @@ void GameObject::Draw(ID3D11DeviceContext* devCon, ID3D11Buffer* devConstantBuff
 	constantBuffer->colour = colourRGB;
 
 	devCon->UpdateSubresource(devConstantBuffer, 0, NULL, constantBuffer, 0, 0);
+	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	devCon->DrawIndexed(36, 0, 0);
 
 }

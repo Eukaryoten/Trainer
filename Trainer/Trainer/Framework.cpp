@@ -3,10 +3,6 @@
 #include "Framework.h"
 
 
-namespace{
-	Framework* pFramework;
-}
-
 Framework::Framework(void){
 
 }
@@ -16,7 +12,6 @@ Framework::Framework(HINSTANCE hInstance){
 	applicationTitle = L"Game Engine";
 	windowStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 	windowClassName = "APPWINDOWCLASS";
-	pFramework = this;
 	timer = new Timer();
 }
 int Framework::Run()
@@ -43,23 +38,19 @@ int Framework::Run()
 
 	return msg.wParam;
 }
-LRESULT Framework::MessageProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam){
+
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam){
 	switch (msg)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
 	case WM_KEYDOWN:
-		if (wParam == VK_ESCAPE){
-			DestroyWindow(hWnd);
-		}
+		if (wParam == VK_ESCAPE) DestroyWindow(hWnd);
 		return 0;
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam){
-	return pFramework->MessageProc(hWnd, msg, wParam, lParam);
 }
 void Framework::CalculateFrameStats(){
 

@@ -39,7 +39,6 @@ public:
 	int Run();
 	void CalculateFrameStats();
 	
-	LRESULT MessageProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	virtual ~Framework();
 	
 protected:
@@ -69,6 +68,8 @@ protected:
 	ID3D11DepthStencilView* depthStencilView;
 	ID3D11Texture2D* depthStencilBuffer;
 	ID3D11SamplerState* samplerState;
+
+	
 	
 
 };

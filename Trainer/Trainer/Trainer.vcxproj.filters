@@ -39,6 +39,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PetSkeleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -74,9 +77,13 @@
     <ClInclude Include="ApplicationDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PetSkeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectionalLight.shader" />
     <None Include="PointLight.shader" />
+    <None Include="ShapeSlider.shader" />
   </ItemGroup>
 </Project>

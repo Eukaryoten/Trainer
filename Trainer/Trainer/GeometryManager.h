@@ -21,16 +21,14 @@ public:
 	void AddCubeVertexData();
 	void AddCubeIndexData();
 
+	void AddSphereVertexData(float radius, float lati, float longi);
+	void AddSphereIndexData(float radius, float lati, float longi);
+
 	void SetVertexBuffer(ID3D11DeviceContext *devCon);
 	void SetIndexBuffer(ID3D11DeviceContext *devCon);
 
 	Layout* GetVertexData();
 	DWORD* GetIndexData();
-
-	D3DXVECTOR3 positionData[24];
-	D3DXVECTOR3 colourData[24];
-	D3DXVECTOR3 textureData[24];
-	D3DXVECTOR3 normalData[24];
 
 	~GeometryManager();
 
@@ -46,6 +44,7 @@ private:
 	float zScale;
 	UINT stride;
 	UINT offset;
+
 	ID3D11Buffer *vertexBuffer;
 	ID3D11Buffer *indexBuffer;
 
@@ -84,6 +83,7 @@ void GeometryManager<Layout>::LoadData() {
 
 	AddCubeVertexData();
 	AddCubeIndexData();
+	AddSphereVertexData(1,20,20);
 
 }
 
@@ -281,6 +281,40 @@ void GeometryManager<Layout>::AddCubeIndexData() {
 	tempArray[35] = 23;
 
 	for (int i = 0; i < cubeIndexCount; i++) indexData.push_back(tempArray[i]);
+
+}
+
+template <class Layout>
+void GeometryManager<Layout>::AddSphereVertexData(float radius, float lati, float longi) {
+
+	float M_PI = 3.14;
+
+	for (float latNumber = 0; latNumber <= lati; latNumber++) {
+
+		float theta = latNumber * M_PI / lati;
+		float sinTheta = sin(theta);
+		float cosTheta = cos(theta);
+
+		for (float longNumber = 0; longNumber <= longi; longNumber++) {
+			float phi = longNumber * 2 * M_PI / longi;
+			float sinPhi = sin(phi);
+			float cosPhi = cos(phi);
+
+			Layout vertex;
+
+			vertex.nor = D3DXVECTOR3(cosPhi * sinTheta, cosTheta, sinPhi * sinTheta);
+			vertex.col = D3DXVECTOR3(1.0,0.0,1.0);
+			vertex.pos = D3DXVECTOR3(radius * vertex.nor.x, radius * vertex.nor.y, radius * vertex.nor.z);
+
+			vertexData.push_back(vertex);
+		}
+	}
+		
+
+}
+
+template <class Layout>
+void GeometryManager<Layout>::AddSphereIndexData(float radius, float lati, float longi) {
 
 }
 

@@ -62,21 +62,35 @@ void Application::Update(float dt){
 	rot += 2.0 * dt;
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
+
 }
 
 void Application::Render(){
 
 	devCon->ClearRenderTargetView(backBuffer, D3DXCOLOR(0.0,0.0,0.0,0.0));
 	devCon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// Drawing starts here
 
 	pointLightShader->SetShader(devCon);
 
-	player->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
-	enemy->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
-	floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
+	//player->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
+	//enemy->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
+	//floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
+
+	D3DXMatrixIdentity(&world);
+
+	WVP = world * view * projection;
+
+	D3DXMatrixTranspose(&cbPerObj.WVP, &WVP); // Send WVP to constant buffer
+	D3DXMatrixTranspose(&cbPerObj.world, &world);
+	cbPerObj.colour = D3DXVECTOR3(1.0, 1.0, 1.0);
+
+	devCon->UpdateSubresource(devObjectConstantBuffer, 0, NULL, &cbPerObj, 0, 0);
+
+	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+	devCon->Draw(400,24);
 
 	// End of drawing
 
