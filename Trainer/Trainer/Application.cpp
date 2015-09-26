@@ -78,7 +78,45 @@ void Application::Render(){
 	//enemy->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 	//floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 
+	/*D3DXMatrixIdentity(&world);
+
+	WVP = world * view * projection;
+
+	D3DXMatrixTranspose(&cbPerObj.WVP, &WVP); // Send WVP to constant buffer
+	D3DXMatrixTranspose(&cbPerObj.world, &world);
+	cbPerObj.colour = D3DXVECTOR3(1.0, 1.0, 1.0);
+
+	devCon->UpdateSubresource(devObjectConstantBuffer, 0, NULL, &cbPerObj, 0, 0);*/
+
+	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+	RotateWVP(D3DXVECTOR3(rot,0.0,0.0));
+
+	devCon->Draw(500,24);
+
+	// End of drawing
+
+	swapChain->Present(0, 0);
+
+}
+
+void Application::RotateWVP(D3DXVECTOR3 rot) {
+
 	D3DXMatrixIdentity(&world);
+
+	D3DXMATRIX rotationMatrix;
+
+	D3DXMATRIX xRot;
+	D3DXMATRIX yRot;
+	D3DXMATRIX zRot;
+
+	D3DXMatrixRotationX(&xRot, rot.x);
+	D3DXMatrixRotationY(&yRot, rot.y);
+	D3DXMatrixRotationZ(&zRot, rot.z);
+
+	rotationMatrix = xRot * yRot * zRot;
+
+	world *= rotationMatrix;
 
 	WVP = world * view * projection;
 
@@ -87,15 +125,6 @@ void Application::Render(){
 	cbPerObj.colour = D3DXVECTOR3(1.0, 1.0, 1.0);
 
 	devCon->UpdateSubresource(devObjectConstantBuffer, 0, NULL, &cbPerObj, 0, 0);
-
-	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-
-	devCon->Draw(400,24);
-
-	// End of drawing
-
-	swapChain->Present(0, 0);
-
 }
 
 Application::~Application(){

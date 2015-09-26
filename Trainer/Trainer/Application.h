@@ -11,6 +11,7 @@ public:
 	Application(HINSTANCE hInstance);
 
 	bool InitializeGame();
+	void RotateWVP(D3DXVECTOR3);
 	void Update(float dt);
 	void Render();
 
