@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Framework.h"
+#include "Camera.h"
 #include "Shader.h"
 #include "GameObject.h"
 #include "GeometryManager.h"
@@ -8,9 +9,10 @@
 class Application : public Framework
 {
 public:
-	Application(HINSTANCE hInstance);
 
+	Application(HINSTANCE hInstance);
 	bool InitializeGame();
+
 	void RotateWVP(D3DXVECTOR3);
 	void Update(float dt);
 	void Render();
@@ -19,6 +21,7 @@ public:
 
 private:
 
+	Camera *camera;
 
 	float rot;
 

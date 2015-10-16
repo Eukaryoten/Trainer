@@ -4,6 +4,7 @@
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
 #include <vector>
+#include <math.h>
 
 #include "Vertex.h"
 
@@ -27,8 +28,12 @@ public:
 	void SetVertexBuffer(ID3D11DeviceContext *devCon);
 	void SetIndexBuffer(ID3D11DeviceContext *devCon);
 
+	void DrawLineFromCircleCentre(ID3D11DeviceContext *devCon, float angle);
+
 	Layout* GetVertexData();
 	DWORD* GetIndexData();
+	int GetSphereVertexCount();
+	int GetCubeVertexCount();
 
 	~GeometryManager();
 
@@ -37,6 +42,7 @@ private:
 	D3DXVECTOR3 tempCubeDim;
 
 	std::vector<Layout>vertexData;
+	std::vector<Layout>dynamicData;
 	std::vector<DWORD>indexData;
 
 	float xScale;
@@ -50,7 +56,60 @@ private:
 
 	int cubeVertexCount;
 	int cubeIndexCount;
+	int sphereLatLines;
+	int sphereLongLines;
+	float sphereRadius;
 };
+
+template <class Layout>
+int GeometryManager<Layout>::GetSphereVertexCount() {
+	return vertexData.size() - cubeVertexCount;
+}
+
+template <class Layout>
+int GeometryManager<Layout>::GetCubeVertexCount() {
+	return cubeVertexCount;
+}
+
+template <class Layout>
+void GeometryManager<Layout>::DrawLineFromCircleCentre(ID3D11DeviceContext *devCon, float angle) {
+
+	int i;
+	int vectorNumber = 0;
+	int startVertex = cubeVertexCount;
+	float angleBetweenVectors;
+	float smallestDifference = angle;
+	int tempDifference;
+	D3DXVECTOR2 baseVector = D3DXVECTOR2(1, 0);
+	D3DXVECTOR2 secondaryVector;
+	int x = 0;
+
+	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+
+
+	for (i = startVertex; i < GetSphereVertexCount(); i += 2) {
+
+
+		secondaryVector.x = vertexData[i + 1].pos.z;
+		secondaryVector.y = vertexData[i + 1].pos.y;
+		x = vertexData[i + 1].pos.x;
+		
+
+		if (x == 0) {
+
+			angleBetweenVectors = acos(D3DXVec2Dot(&baseVector, &secondaryVector));
+			tempDifference = abs(angle - angleBetweenVectors);
+
+			if (tempDifference < smallestDifference) {
+				smallestDifference = angleBetweenVectors;
+				vectorNumber = i;
+			}
+		}
+
+	}
+
+	devCon->Draw(2, vectorNumber);
+}
 
 template <class Layout>
 GeometryManager<Layout>::GeometryManager() {
@@ -61,6 +120,9 @@ GeometryManager<Layout>::GeometryManager() {
 
 	cubeVertexCount = 24;
 	cubeIndexCount = 36;
+	sphereLatLines = 30;
+	sphereLongLines = 30;
+	sphereRadius = 1;
 
 	stride = sizeof(Layout);
 	offset = 0;
@@ -83,7 +145,7 @@ void GeometryManager<Layout>::LoadData() {
 
 	AddCubeVertexData();
 	AddCubeIndexData();
-	AddSphereVertexData(1,20,20);
+	AddSphereVertexData(sphereRadius,sphereLatLines,sphereLongLines);
 
 }
 
@@ -289,6 +351,12 @@ void GeometryManager<Layout>::AddSphereVertexData(float radius, float lati, floa
 
 	float M_PI = 3.14;
 
+	Layout centre;
+
+	centre.nor = D3DXVECTOR3(0.0, 0.0, 0.0);
+	centre.col = D3DXVECTOR3(1.0, 0.0, 1.0);
+	centre.pos = D3DXVECTOR3(0.0, 0.0, 0.0);
+
 	for (float latNumber = 0; latNumber <= lati; latNumber++) {
 
 		float theta = latNumber * M_PI / lati;
@@ -301,16 +369,16 @@ void GeometryManager<Layout>::AddSphereVertexData(float radius, float lati, floa
 			float cosPhi = cos(phi);
 
 			Layout vertex;
-
+			
 			vertex.nor = D3DXVECTOR3(cosPhi * sinTheta, cosTheta, sinPhi * sinTheta);
 			vertex.col = D3DXVECTOR3(1.0,0.0,1.0);
 			vertex.pos = D3DXVECTOR3(radius * vertex.nor.x, radius * vertex.nor.y, radius * vertex.nor.z);
 
+			vertexData.push_back(centre);
 			vertexData.push_back(vertex);
+			
 		}
 	}
-		
-
 }
 
 template <class Layout>

@@ -1,4 +1,5 @@
 #pragma once
+#include <Windows.h>
 
 #define SCREEN_WIDTH     900
 #define SCREEN_HEIGHT    900

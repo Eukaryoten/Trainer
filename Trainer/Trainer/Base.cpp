@@ -5,6 +5,10 @@ Base::Base(){
 
 	// Initialize attributes
 
+	defaultRight = D3DXVECTOR3(1.0f, 0.0f, 0.0f); // Set default Right direction to be positive 1 in the x-axis
+	defaultUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f); // Set default Up direction to be positive 1 in the y-axis
+	defaultForward = D3DXVECTOR3(0.0f, 0.0f, 1.0f); // Set default Forward direction to be positive 1 in the z-axis
+
 	D3DXMatrixIdentity(&world);
 	D3DXMatrixIdentity(&rotationMatrix);
 	D3DXMatrixIdentity(&translationMatrix);
@@ -49,6 +53,10 @@ D3DXVECTOR3 Base::GetPosition(){
 void Base::TranslatePosition(D3DXVECTOR3 pos){
 	currentPosition += pos;
 	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
+}
+
+void Base::OffsetAxis(D3DXVECTOR3 offset) {
+	axisOffset = offset;
 }
 
 Base::~Base(){
