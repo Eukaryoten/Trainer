@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="ApplicationDefinitions.h" />
     <ClInclude Include="KeyboardControls.h" />
     <ClInclude Include="WindowDefinitions.h" />
     <ClInclude Include="Base.h" />

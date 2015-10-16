@@ -3,6 +3,7 @@
 
 
 Pipeline::Pipeline(){
+
 }
 
 bool Pipeline::InitializeWindowSettings(HWND hWindow) {
@@ -51,7 +52,7 @@ bool Pipeline::InitializeWindowSettings(HWND hWindow) {
 	return true;
 }
 
-bool Pipeline::InitializeDirect3D() {
+bool Pipeline::InitializeDepthStencil() {
 
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
 
@@ -70,6 +71,11 @@ bool Pipeline::InitializeDirect3D() {
 	dev->CreateTexture2D(&depthStencilDesc, NULL, &depthStencilBuffer);
 	dev->CreateDepthStencilView(depthStencilBuffer, NULL, &depthStencilView);
 	devCon->OMSetRenderTargets(1, &backBuffer, depthStencilView);
+
+	return true;
+
+}
+bool Pipeline::InitializeViewportAndSampler() {
 
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -98,6 +104,11 @@ bool Pipeline::InitializeDirect3D() {
 
 	devCon->PSSetSamplers(0, 1, &samplerState);
 	devCon->RSSetViewports(1, &viewport);
+
+	return true;
+
+}
+bool Pipeline::InitializeConstantBuffers() {
 
 	// Create object constant buffer
 
@@ -132,6 +143,31 @@ bool Pipeline::InitializeDirect3D() {
 	constantBufferDesc.MiscFlags = 0;
 
 	dev->CreateBuffer(&constantBufferDesc, NULL, &devFrameConstantBuffer);
+
+	return true;
+
+}
+
+
+bool Pipeline::InitializeShaders() {
+
+	shaderList[0] = new Shader(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
+	shaderList[1] = new Shader(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
+
+	return true;
+
+}
+
+void Pipeline::SetShader(ShaderType i) {
+	shaderList[i]->SetShader(devCon);
+}
+
+bool Pipeline::InitializeDirect3D() {
+
+	if (!InitializeDepthStencil()) return false;
+	if (!InitializeViewportAndSampler()) return false;
+	if (!InitializeConstantBuffers()) return false;
+	if (!InitializeShaders()) return false;
 
 	return true;
 

@@ -1,10 +1,14 @@
 #include "Application.h"
 
+#define DEVCON pipeline->GetDeviceContext()
+#define DEV pipeline->GetDevice()
+
 Application::Application(HINSTANCE hInstance){
 
 	window = new Window(hInstance);
 	pipeline = new Pipeline();
 	timer = new Timer();
+	currentDrawSettings = new DrawObjectSettings();
 	
 	// Object memory allocation
 
@@ -46,9 +50,6 @@ bool Application::InitializeGame(){
 	ID3D11Buffer *objCB = pipeline->GetObjectConstantBuffer();
 	ID3D11Buffer *frmCB = pipeline->GetFrameConstantBuffer();
 
-	directionalLightShader = new Shader(pipeline->GetDevice(), L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
-	pointLightShader = new Shader(pipeline->GetDevice(), L"PointLight.shader", Vertex::ColouredNormalLayout);
-
 	gManager->Initialize(pipeline->GetDevice(), pipeline->GetDeviceContext());
 
 	pipeline->GetFrameStructure().light = pointLight;
@@ -60,44 +61,54 @@ bool Application::InitializeGame(){
 
 void Application::Update(float dt){
 
-	float speed = 2;
+	float mSpeed = 4;
+	float rSpeed = 2;
 
 	window->Update(dt);
 	camera->Update(&view);
 
-	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(-speed*dt, 0.0, 0));
-	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3(speed*dt, 0.0, 0));
-	if (KeyboardControls::GetWKey()) camera->OffsetAxis(D3DXVECTOR3(0.0,0.0, speed*dt));
-	if (KeyboardControls::GetAKey()) camera->OffsetAxis(D3DXVECTOR3(-speed*dt, 0.0,0.0));
-	if (KeyboardControls::GetSKey()) camera->OffsetAxis(D3DXVECTOR3(0.0, 0.0, -speed*dt));
-	if (KeyboardControls::GetDKey()) camera->OffsetAxis(D3DXVECTOR3(speed*dt, 0.0, 0.0));
+	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
+	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3(rSpeed*dt, 0.0, 0));
+
+	if (KeyboardControls::GetWKey()) camera->OffsetAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
+	if (KeyboardControls::GetAKey()) camera->OffsetAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
+	if (KeyboardControls::GetSKey()) camera->OffsetAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
+	if (KeyboardControls::GetDKey()) camera->OffsetAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
 	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
 
 }
 
+void Application::UpdateDrawSettings() {
+
+	currentDrawSettings->devCon = pipeline->GetDeviceContext();
+	currentDrawSettings->devConstantBuffer = pipeline->GetObjectConstantBuffer();
+	currentDrawSettings->constantBuffer = &pipeline->GetObjectStructure();
+	currentDrawSettings->viewProjection = view*projection;
+}
+
 void Application::Render(){
 
+	UpdateDrawSettings();
 
 	pipeline->GetDeviceContext()->ClearRenderTargetView(pipeline->GetBackBuffer(), D3DXCOLOR(0.0,0.0,0.0,0.0));
 	pipeline->GetDeviceContext()->ClearDepthStencilView(pipeline->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	// Drawing starts here
 
-	pointLightShader->SetShader(pipeline->GetDeviceContext());
+	pipeline->SetShader(PointLight);
 
-	player->Draw(pipeline->GetDeviceContext(), pipeline->GetObjectConstantBuffer(), &pipeline->GetObjectStructure(), view*projection);
-	enemy->Draw(pipeline->GetDeviceContext(), pipeline->GetObjectConstantBuffer(), &pipeline->GetObjectStructure(), view*projection);
-	//floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
+	player->Draw(currentDrawSettings);
+	enemy->Draw(currentDrawSettings);
+	floor->Draw(currentDrawSettings);
 
 
 	pipeline->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	//RotateWVP(D3DXVECTOR3(0.0,0.0,0.0));
 
-	gManager->DrawLineFromCircleCentre(pipeline->GetDeviceContext(), rot);
-	pipeline->GetDeviceContext()->Draw(gManager->GetSphereVertexCount(),gManager->GetCubeVertexCount());
+	//gManager->DrawLineFromCircleCentre(pipeline->GetDeviceContext(), rot);
+	//pipeline->GetDeviceContext()->Draw(gManager->GetSphereVertexCount(),gManager->GetCubeVertexCount());
 
 	// End of drawing
 

@@ -1,8 +1,8 @@
 #pragma once
 
+#include "ApplicationDefinitions.h"
 #include "Framework.h"
 #include "Camera.h"
-#include "Shader.h"
 #include "GameObject.h"
 #include "GeometryManager.h"
 
@@ -12,6 +12,7 @@ public:
 
 	Application(HINSTANCE hInstance);
 	bool InitializeGame();
+	void UpdateDrawSettings();
 
 	void RotateWVP(D3DXVECTOR3);
 	void Update(float dt);
@@ -20,6 +21,8 @@ public:
 	~Application();
 
 private:
+
+	DrawObjectSettings *currentDrawSettings;
 
 	Camera *camera;
 
@@ -33,9 +36,6 @@ private:
 	GameObject *floor;
 
 	GeometryManager<Vertex::ColouredNormal>* gManager;
-
-	Shader* pointLightShader;
-	Shader* directionalLightShader;
 
 	D3DXMATRIX WVP;
 	D3DXMATRIX world;

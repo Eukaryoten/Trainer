@@ -4,6 +4,8 @@
 #include <d3dx11.h>
 #include <d3dx10.h>
 
+enum ShaderType { DirectionalLight, PointLight };
+
 struct Light
 {
 	Light() {
