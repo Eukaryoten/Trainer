@@ -6,6 +6,10 @@ Framework::Framework(void){
 }
 
 Framework::Framework(HINSTANCE hInstance){
+
+	window = new Window(hInstance);
+	pipeline = new Pipeline();
+	timer = new Timer();
 }
 
 int Framework::Run()

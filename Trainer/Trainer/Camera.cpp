@@ -50,7 +50,7 @@ void Camera::Update(D3DXMATRIX *worldView) {
 
 	// Set new view matrix with current target and new up direction vector
 
-	currentPosition = D3DXVECTOR3(0.0f, 0.0f, 10.0f);
+	currentPosition = D3DXVECTOR3(0.0f, 0.0f, -10.0f);
 	target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	currentUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 

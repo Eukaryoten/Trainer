@@ -6,7 +6,6 @@ Application::Application(HINSTANCE hInstance){
 	pipeline = new Pipeline();
 	timer = new Timer();
 	
-
 	// Object memory allocation
 
 	camera = new Camera(&projection);
@@ -19,7 +18,7 @@ Application::Application(HINSTANCE hInstance){
 	enemy  = new GameObject(1.0,0.0,0.0);
 	floor  = new GameObject(1.0,0.5,0.0);
 
-	player->SetPosition(D3DXVECTOR3(0.0, 0.0, -10.0));
+	player->SetPosition(D3DXVECTOR3(0.0, 0.0, 0.0));
 	enemy->SetPosition(D3DXVECTOR3(-3.0, 0.0, 0.0));
 	floor->SetPosition(D3DXVECTOR3(0.0, -1.0, 0.0));
 
@@ -53,7 +52,7 @@ bool Application::InitializeGame(){
 	gManager->Initialize(pipeline->GetDevice(), pipeline->GetDeviceContext());
 
 	pipeline->GetFrameStructure().light = pointLight;
-	pipeline->GetDeviceContext()->UpdateSubresource(frmCB, 0, NULL, &pipeline->GetFrameStructure(),0,0);
+	pipeline->GetDeviceContext()->UpdateSubresource(pipeline->GetFrameConstantBuffer(), 0, NULL, &pipeline->GetFrameStructure(),0,0);
 	pipeline->GetDeviceContext()->PSSetConstantBuffers(0, 1, &frmCB);
 
 	return true;
@@ -65,6 +64,7 @@ void Application::Update(float dt){
 	camera->Update(&view);
 
 	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(1,0,0));
+	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3(-1, 0, 0));
 	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
