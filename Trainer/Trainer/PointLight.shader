@@ -47,6 +47,8 @@ float4 PS(VS_OUTPUT input) : SV_TARGET{ // Pixel shader stage
 
 	//input.normal = normalize(input.normal);
 
+	return float4(input.color, 0.0);
+
 	float4 diffuse = float4(input.color, 0.0);
 	float3 finalColor = float3(0.0f, 0.0f, 0.0f);
 
@@ -85,4 +87,5 @@ float4 PS(VS_OUTPUT input) : SV_TARGET{ // Pixel shader stage
 	finalColor = saturate(finalColor + finalAmbient);
 
 	return float4(finalColor, diffuse.a);
+	
 }

@@ -23,7 +23,6 @@ public:
 	~Pipeline();
 private:
 
-	ID3D11InputLayout *inputLayout;
 	ID3D11Buffer *devObjectConstantBuffer;
 	ID3D11Buffer *devFrameConstantBuffer;
 	ObjectConstantBuffer cbPerObj;

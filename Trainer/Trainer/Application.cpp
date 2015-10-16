@@ -60,11 +60,17 @@ bool Application::InitializeGame(){
 
 void Application::Update(float dt){
 
+	float speed = 2;
+
 	window->Update(dt);
 	camera->Update(&view);
 
-	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(1,0,0));
-	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3(-1, 0, 0));
+	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(-speed*dt, 0.0, 0));
+	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3(speed*dt, 0.0, 0));
+	if (KeyboardControls::GetWKey()) camera->OffsetAxis(D3DXVECTOR3(0.0,0.0, speed*dt));
+	if (KeyboardControls::GetAKey()) camera->OffsetAxis(D3DXVECTOR3(-speed*dt, 0.0,0.0));
+	if (KeyboardControls::GetSKey()) camera->OffsetAxis(D3DXVECTOR3(0.0, 0.0, -speed*dt));
+	if (KeyboardControls::GetDKey()) camera->OffsetAxis(D3DXVECTOR3(speed*dt, 0.0, 0.0));
 	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
@@ -72,9 +78,6 @@ void Application::Update(float dt){
 }
 
 void Application::Render(){
-
-	ID3D11Buffer *objCB = pipeline->GetObjectConstantBuffer();
-	ID3D11Buffer *frmCB = pipeline->GetFrameConstantBuffer();
 
 
 	pipeline->GetDeviceContext()->ClearRenderTargetView(pipeline->GetBackBuffer(), D3DXCOLOR(0.0,0.0,0.0,0.0));
@@ -84,8 +87,8 @@ void Application::Render(){
 
 	pointLightShader->SetShader(pipeline->GetDeviceContext());
 
-	player->Draw(pipeline->GetDeviceContext(), objCB, &pipeline->GetObjectStructure(), view*projection);
-	enemy->Draw(pipeline->GetDeviceContext(), objCB, &pipeline->GetObjectStructure(), view*projection);
+	player->Draw(pipeline->GetDeviceContext(), pipeline->GetObjectConstantBuffer(), &pipeline->GetObjectStructure(), view*projection);
+	enemy->Draw(pipeline->GetDeviceContext(), pipeline->GetObjectConstantBuffer(), &pipeline->GetObjectStructure(), view*projection);
 	//floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 
 
@@ -94,8 +97,6 @@ void Application::Render(){
 	//RotateWVP(D3DXVECTOR3(0.0,0.0,0.0));
 
 	gManager->DrawLineFromCircleCentre(pipeline->GetDeviceContext(), rot);
-
-
 	pipeline->GetDeviceContext()->Draw(gManager->GetSphereVertexCount(),gManager->GetCubeVertexCount());
 
 	// End of drawing
