@@ -8,9 +8,7 @@ public:
 	Pipeline();
 
 	bool InitializeWindowSettings(HWND hWnd);
-
-	void SetObjectBufferWVP();
-
+	bool InitializeDirect3D();
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
@@ -28,8 +26,8 @@ private:
 	ID3D11InputLayout *inputLayout;
 	ID3D11Buffer *devObjectConstantBuffer;
 	ID3D11Buffer *devFrameConstantBuffer;
-	ObjectConstantBuffer cbPerObj; // Constant buffer per object
-	FrameConstantBuffer cbPerFrame; // Constant buffer per frame
+	ObjectConstantBuffer cbPerObj;
+	FrameConstantBuffer cbPerFrame;
 	IDXGISwapChain *swapChain;
 	ID3D11Device *dev;
 	ID3D11DeviceContext *devCon;

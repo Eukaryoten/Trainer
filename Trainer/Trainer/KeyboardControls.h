@@ -10,10 +10,10 @@ public:
 	static void SetLeftKey(bool);
 	static void SetRightKey(bool);
 
-	static bool GetUpKey(bool);
-	static bool GetDownKey(bool);
-	static bool GetLeftKey(bool);
-	static bool GetRightKey(bool);
+	static bool GetUpKey();
+	static bool GetDownKey();
+	static bool GetLeftKey();
+	static bool GetRightKey();
 
 	
 	~KeyboardControls();

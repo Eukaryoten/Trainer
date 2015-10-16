@@ -51,6 +51,92 @@ bool Pipeline::InitializeWindowSettings(HWND hWindow) {
 	return true;
 }
 
+bool Pipeline::InitializeDirect3D() {
+
+	D3D11_TEXTURE2D_DESC depthStencilDesc;
+
+	depthStencilDesc.Width = SCREEN_WIDTH;
+	depthStencilDesc.Height = SCREEN_HEIGHT;
+	depthStencilDesc.MipLevels = 1;
+	depthStencilDesc.ArraySize = 1;
+	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilDesc.SampleDesc.Count = 1;
+	depthStencilDesc.SampleDesc.Quality = 0;
+	depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthStencilDesc.CPUAccessFlags = 0;
+	depthStencilDesc.MiscFlags = 0;
+
+	dev->CreateTexture2D(&depthStencilDesc, NULL, &depthStencilBuffer);
+	dev->CreateDepthStencilView(depthStencilBuffer, NULL, &depthStencilView);
+	devCon->OMSetRenderTargets(1, &backBuffer, depthStencilView);
+
+	D3D11_VIEWPORT viewport;
+	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.Width = SCREEN_WIDTH;
+	viewport.Height = SCREEN_HEIGHT;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+
+	D3D11_SAMPLER_DESC sampDesc;
+
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	dev->CreateSamplerState(&sampDesc, &samplerState);
+
+	// Update Pipeline
+
+	devCon->PSSetSamplers(0, 1, &samplerState);
+	devCon->RSSetViewports(1, &viewport);
+
+	// Create object constant buffer
+
+	D3D11_BUFFER_DESC constantBufferDesc;
+	ZeroMemory(&constantBufferDesc, sizeof(D3D11_BUFFER_DESC));
+	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	constantBufferDesc.ByteWidth = sizeof(cbPerObj);
+
+	if ((constantBufferDesc.ByteWidth % 16) != 0)
+		constantBufferDesc.ByteWidth += 16 - (constantBufferDesc.ByteWidth % 16);
+
+	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	constantBufferDesc.CPUAccessFlags = 0;
+	constantBufferDesc.MiscFlags = 0;
+	dev->CreateBuffer(&constantBufferDesc, NULL, &devObjectConstantBuffer);
+
+	devCon->VSSetConstantBuffers(0, 1, &devObjectConstantBuffer);
+	devCon->PSSetConstantBuffers(0, 1, &devObjectConstantBuffer);
+
+	// Create frame constant buffer
+
+	ZeroMemory(&constantBufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+	constantBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	constantBufferDesc.ByteWidth = sizeof(cbPerFrame);
+
+	if ((constantBufferDesc.ByteWidth % 16) != 0)
+		constantBufferDesc.ByteWidth += 16 - (constantBufferDesc.ByteWidth % 16);
+
+	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	constantBufferDesc.CPUAccessFlags = 0;
+	constantBufferDesc.MiscFlags = 0;
+
+	dev->CreateBuffer(&constantBufferDesc, NULL, &devFrameConstantBuffer);
+
+	return true;
+
+}
+
 ID3D11Device* Pipeline::GetDevice() {
 	return dev;
 }

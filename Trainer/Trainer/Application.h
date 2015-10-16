@@ -37,7 +37,7 @@ private:
 	Shader* pointLightShader;
 	Shader* directionalLightShader;
 
-	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space
+	D3DXMATRIX WVP;
 	D3DXMATRIX world;
 	D3DXMATRIX view;
 	D3DXMATRIX projection;

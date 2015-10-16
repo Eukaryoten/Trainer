@@ -1,10 +1,5 @@
 #include "Application.h"
 
-namespace {
-
-	Application* pApp;
-}
-
 Application::Application(HINSTANCE hInstance){
 
 	window = new Window(hInstance);
@@ -14,7 +9,6 @@ Application::Application(HINSTANCE hInstance){
 
 	// Object memory allocation
 
-	pApp = this;
 	camera = new Camera(&projection);
 	timer = new Timer();
 	gManager = new GeometryManager<Vertex::ColouredNormal>();
@@ -25,7 +19,7 @@ Application::Application(HINSTANCE hInstance){
 	enemy  = new GameObject(1.0,0.0,0.0);
 	floor  = new GameObject(1.0,0.5,0.0);
 
-	player->SetPosition(D3DXVECTOR3(3.0, 0.0, 0.0));
+	player->SetPosition(D3DXVECTOR3(0.0, 0.0, -10.0));
 	enemy->SetPosition(D3DXVECTOR3(-3.0, 0.0, 0.0));
 	floor->SetPosition(D3DXVECTOR3(0.0, -1.0, 0.0));
 
@@ -50,22 +44,17 @@ Application::Application(HINSTANCE hInstance){
 
 bool Application::InitializeGame(){
 
-	ID3D11Device *dev = pipeline->GetDevice();
-	ID3D11DeviceContext *devCon = pipeline->GetDeviceContext();
-	IDXGISwapChain *swapChain = pipeline->GetSwapChain();
 	ID3D11Buffer *objCB = pipeline->GetObjectConstantBuffer();
 	ID3D11Buffer *frmCB = pipeline->GetFrameConstantBuffer();
-	ObjectConstantBuffer *cbPerObj = &pipeline->GetObjectStructure();
-	FrameConstantBuffer *cbPerFrame = &pipeline->GetFrameStructure();
 
-	directionalLightShader = new Shader(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
-	pointLightShader = new Shader(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
+	directionalLightShader = new Shader(pipeline->GetDevice(), L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
+	pointLightShader = new Shader(pipeline->GetDevice(), L"PointLight.shader", Vertex::ColouredNormalLayout);
 
-	gManager->Initialize(dev, devCon);
+	gManager->Initialize(pipeline->GetDevice(), pipeline->GetDeviceContext());
 
-	cbPerFrame->light = pointLight;
-	devCon->UpdateSubresource(&frmCB, 0, NULL, &cbPerFrame,0,0);
-	devCon->PSSetConstantBuffers(0, 1, &frmCB);
+	pipeline->GetFrameStructure().light = pointLight;
+	pipeline->GetDeviceContext()->UpdateSubresource(frmCB, 0, NULL, &pipeline->GetFrameStructure(),0,0);
+	pipeline->GetDeviceContext()->PSSetConstantBuffers(0, 1, &frmCB);
 
 	return true;
 }
@@ -74,6 +63,8 @@ void Application::Update(float dt){
 
 	window->Update(dt);
 	camera->Update(&view);
+
+	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(1,0,0));
 	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
@@ -82,39 +73,34 @@ void Application::Update(float dt){
 
 void Application::Render(){
 
-	ID3D11Device *dev = pipeline->GetDevice();
-	ID3D11DeviceContext *devCon = pipeline->GetDeviceContext();
-	IDXGISwapChain *swapChain = pipeline->GetSwapChain();
 	ID3D11Buffer *objCB = pipeline->GetObjectConstantBuffer();
 	ID3D11Buffer *frmCB = pipeline->GetFrameConstantBuffer();
-	ObjectConstantBuffer *cbPerObj = &pipeline->GetObjectStructure();
-	FrameConstantBuffer *cbPerFrame = &pipeline->GetFrameStructure();
 
 
-	devCon->ClearRenderTargetView(pipeline->GetBackBuffer(), D3DXCOLOR(0.0,0.0,0.0,0.0));
-	devCon->ClearDepthStencilView(pipeline->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	pipeline->GetDeviceContext()->ClearRenderTargetView(pipeline->GetBackBuffer(), D3DXCOLOR(0.0,0.0,0.0,0.0));
+	pipeline->GetDeviceContext()->ClearDepthStencilView(pipeline->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	// Drawing starts here
 
-	pointLightShader->SetShader(devCon);
+	pointLightShader->SetShader(pipeline->GetDeviceContext());
 
-	player->Draw(devCon, objCB, cbPerObj, view*projection);
-	enemy->Draw(devCon, objCB, cbPerObj, view*projection);
+	player->Draw(pipeline->GetDeviceContext(), objCB, &pipeline->GetObjectStructure(), view*projection);
+	enemy->Draw(pipeline->GetDeviceContext(), objCB, &pipeline->GetObjectStructure(), view*projection);
 	//floor->Draw(devCon, devObjectConstantBuffer, &cbPerObj, view*projection);
 
 
-	devCon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pipeline->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	RotateWVP(D3DXVECTOR3(0.0,0.0,0.0));
+	//RotateWVP(D3DXVECTOR3(0.0,0.0,0.0));
 
-	gManager->DrawLineFromCircleCentre(devCon, rot);
+	gManager->DrawLineFromCircleCentre(pipeline->GetDeviceContext(), rot);
 
 
-	devCon->Draw(gManager->GetSphereVertexCount(),gManager->GetCubeVertexCount());
+	pipeline->GetDeviceContext()->Draw(gManager->GetSphereVertexCount(),gManager->GetCubeVertexCount());
 
 	// End of drawing
 
-	swapChain->Present(0, 0);
+	pipeline->GetSwapChain()->Present(0, 0);
 
 }
 
