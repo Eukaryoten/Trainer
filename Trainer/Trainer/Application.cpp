@@ -61,7 +61,10 @@ bool Application::InitializeGame(){
 
 void Application::Update(float dt){
 
-	float mSpeed = 4;
+	Vector2 mPos = window->GetMousePosition();
+	Vector2 windowCenter = window->GetWindowCenter();
+
+	float mSpeed = 6;
 	float rSpeed = 2;
 
 	window->Update(dt);
@@ -74,6 +77,23 @@ void Application::Update(float dt){
 	if (KeyboardControls::GetAKey()) camera->OffsetAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
 	if (KeyboardControls::GetSKey()) camera->OffsetAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
 	if (KeyboardControls::GetDKey()) camera->OffsetAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
+
+
+	// This function determines what happens when mouse enters window
+
+	if (!window->MouseInWindow()) window->SetMouseOutsideWindow(true);
+
+	if (window->MouseJustEnteredWindow()) {
+		window->CenterMouseToWindow(); // Set mouse position to center of Window
+		camera->SetYawPitch(D3DXVECTOR2(1,1)); // ResetYawPitchToCenter
+		window->SetMouseOutsideWindow(false); // Set mouse status
+	}
+
+	if (window->MouseRegisteredInWindow()) {
+		camera->SetYawPitch(D3DXVECTOR2(mPos.x*0.01 - windowCenter.x, mPos.y*0.01 - windowCenter.y));
+	}
+
+	else camera->SetYawPitch(D3DXVECTOR2(0, 0));
 	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
@@ -106,9 +126,6 @@ void Application::Render(){
 
 	pipeline->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-
-	//gManager->DrawLineFromCircleCentre(pipeline->GetDeviceContext(), rot);
-	//pipeline->GetDeviceContext()->Draw(gManager->GetSphereVertexCount(),gManager->GetCubeVertexCount());
 
 	// End of drawing
 

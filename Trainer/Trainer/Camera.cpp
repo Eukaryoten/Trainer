@@ -59,6 +59,11 @@ void Camera::Update(D3DXMATRIX *worldView) {
 
 }
 
+void Camera::SetYawPitch(D3DXVECTOR2 rot) {
+	yaw = rot.x;
+	pitch = rot.y;
+}
+
 void Camera::Rotate(D3DXVECTOR3 rot) {
 	yaw += rot.x;
 	pitch += rot.y;

@@ -9,6 +9,7 @@ public:
 	Camera(D3DXMATRIX*);
 	void Rotate(D3DXVECTOR3);
 	void Update(D3DXMATRIX*);
+	void SetYawPitch(D3DXVECTOR2);
 	void CleanUp();
 	~Camera();
 private:
