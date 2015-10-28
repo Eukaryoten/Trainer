@@ -8,6 +8,7 @@ Framework::Framework(void){
 Framework::Framework(HINSTANCE hInstance){
 
 	window = new Window(hInstance);
+	mouse = new Mouse();
 	pipeline = new Pipeline();
 	timer = new Timer();
 }

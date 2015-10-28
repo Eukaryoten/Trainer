@@ -11,7 +11,7 @@
 #define VK_S 0x53
 #define VK_D 0x44
 
-struct Vector2 {
+struct Vector2D {
 	int x;
 	int y;
 };

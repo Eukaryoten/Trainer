@@ -55,8 +55,15 @@ void Base::TranslatePosition(D3DXVECTOR3 pos){
 	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
 }
 
-void Base::OffsetAxis(D3DXVECTOR3 offset) {
-	axisOffset = offset;
+void Base::TranslatePositionAlongLocalAxis(D3DXVECTOR3 offset) {
+
+	D3DXVECTOR3 lastAxisPosition = localAxisPosition;
+	localAxisPosition = offset;
+
+	if (offset.x == 0) localAxisPosition.x = lastAxisPosition.x;
+	if (offset.y == 0) localAxisPosition.y = lastAxisPosition.y;
+	if (offset.z == 0) localAxisPosition.z = lastAxisPosition.z;
+	
 }
 
 Base::~Base(){

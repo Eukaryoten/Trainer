@@ -11,9 +11,9 @@ Camera::Camera(D3DXMATRIX* worldProjection){
 	target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXMatrixPerspectiveFovLH(&projection, 0.4*3.14f, (float)(SCREEN_WIDTH / SCREEN_HEIGHT), 1.0f, 1000.0f); // Set the cameras aspect ratio
 
-	axisOffset.x = 0;
-	axisOffset.y = 0;
-	axisOffset.z = 0;
+	localAxisPosition.x = 0;
+	localAxisPosition.y = 0;
+	localAxisPosition.z = 0;
 
 	yaw = 0.0;
 	pitch = 0.0;
@@ -40,13 +40,13 @@ void Camera::Update(D3DXMATRIX *worldView) {
 
 	// Translate current position by scaled direction vectors
 
-	currentPosition += axisOffset.x*currentRight;
-	currentPosition += axisOffset.z*currentForward;
+	currentPosition += localAxisPosition.x*currentRight;
+	currentPosition += localAxisPosition.z*currentForward;
 
 	// Reset scalars after done with translation
 
-	axisOffset.x = 0.0f;
-	axisOffset.z = 0.0f;
+	localAxisPosition.x = 0.0f;
+	localAxisPosition.z = 0.0f;
 
 	// Set new view matrix with current target and new up direction vector
 

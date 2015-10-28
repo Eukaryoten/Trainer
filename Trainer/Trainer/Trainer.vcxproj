@@ -156,6 +156,7 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="KeyboardControls.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="ApplicationDefinitions.h" />
     <ClInclude Include="KeyboardControls.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="WindowDefinitions.h" />
     <ClInclude Include="Base.h" />
     <ClInclude Include="Camera.h" />

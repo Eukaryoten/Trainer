@@ -2,6 +2,7 @@
 #include <time.h>
 #include "Timer.h"
 #include "Window.h"
+#include "Mouse.h"
 #include "Pipeline.h"
 
 
@@ -23,9 +24,12 @@ public:
 	void CalculateFrameStats();
 	
 	virtual ~Framework();
-	
 protected:
+
 	Window *window;
+	Mouse *mouse;
+
+
 	Pipeline *pipeline;
 	Timer* timer;
 	WPARAM cWParam;

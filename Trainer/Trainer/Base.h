@@ -15,7 +15,7 @@ public:
 	void SetPosition(D3DXVECTOR3); // Sets the currentPosition attribute by a vector argument
 	void SetScale(D3DXVECTOR3);
 	void TranslatePosition(D3DXVECTOR3); // Increments the currentPosition attribute by vector argument
-	void OffsetAxis(D3DXVECTOR3);
+	void TranslatePositionAlongLocalAxis(D3DXVECTOR3);
 
 	D3DXMATRIX GetMatrix(); // Returns the objects local matrix
 	D3DXVECTOR3 GetPosition(); // Returns the attribute currentPosition which is the centre of the object
@@ -46,7 +46,7 @@ protected:
 	D3DXVECTOR3 currentUp; // Indicates what direction is up
 	D3DXVECTOR3 currentForward; // Indicates what direction is forward
 	D3DXVECTOR3 currentScale;
-	D3DXVECTOR3 axisOffset;
+	D3DXVECTOR3 localAxisPosition;
 
 };
 

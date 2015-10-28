@@ -6,6 +6,7 @@
 Application::Application(HINSTANCE hInstance){
 
 	window = new Window(hInstance);
+	mouse = new Mouse();
 	pipeline = new Pipeline();
 	timer = new Timer();
 	currentDrawSettings = new DrawObjectSettings();
@@ -18,9 +19,9 @@ Application::Application(HINSTANCE hInstance){
 	
 	// Character Initialization
 
-	player = new GameObject(0.0,0.5,1.0);
+	player = new GameObject(1.0,0.0,1.0);
 	enemy  = new GameObject(1.0,0.0,0.0);
-	floor  = new GameObject(1.0,0.5,0.0);
+	floor  = new GameObject(0.0,0.5,0.5);
 
 	player->SetPosition(D3DXVECTOR3(0.0, 0.0, 0.0));
 	enemy->SetPosition(D3DXVECTOR3(-3.0, 0.0, 0.0));
@@ -28,7 +29,7 @@ Application::Application(HINSTANCE hInstance){
 
 	player->SetScale(D3DXVECTOR3(0.3, 0.3, 0.3));
 	enemy->SetScale(D3DXVECTOR3(0.3, 0.3, 0.3));
-	floor->SetScale(D3DXVECTOR3(10.0, 0.2, 4.0));
+	floor->SetScale(D3DXVECTOR3(100.0, 0.2, 100.0));
 
 	// Directional Light Initialization
 
@@ -61,39 +62,41 @@ bool Application::InitializeGame(){
 
 void Application::Update(float dt){
 
-	Vector2 mPos = window->GetMousePosition();
-	Vector2 windowCenter = window->GetWindowCenter();
+	//Vector2D windowCenter = window->GetWindowCenter();
 
 	float mSpeed = 6;
 	float rSpeed = 2;
 
+
 	window->Update(dt);
+	mouse->Update(dt);
 	camera->Update(&view);
 
-	if (KeyboardControls::GetLeftKey()) camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
-	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3(rSpeed*dt, 0.0, 0));
+	if (KeyboardControls::GetLeftKey())  camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
+	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3( rSpeed*dt, 0.0, 0));
 
-	if (KeyboardControls::GetWKey()) camera->OffsetAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
-	if (KeyboardControls::GetAKey()) camera->OffsetAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
-	if (KeyboardControls::GetSKey()) camera->OffsetAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
-	if (KeyboardControls::GetDKey()) camera->OffsetAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
+	if (KeyboardControls::GetWKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
+	if (KeyboardControls::GetAKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
+	if (KeyboardControls::GetSKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
+	if (KeyboardControls::GetDKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
+
+
+	if (window->BoolMouseInWindow(mouse)) {
+		camera->Rotate(D3DXVECTOR3(mouse->GetDeltaMousePosition(dt).x*0.01,
+								   mouse->GetDeltaMousePosition(dt).y*0.01,
+								   0));
+		ShowCursor(false);
+	}
+
+	window->BindMouseToWindow(mouse);
+	
 
 
 	// This function determines what happens when mouse enters window
 
-	if (!window->MouseInWindow()) window->SetMouseOutsideWindow(true);
 
-	if (window->MouseJustEnteredWindow()) {
-		window->CenterMouseToWindow(); // Set mouse position to center of Window
-		camera->SetYawPitch(D3DXVECTOR2(1,1)); // ResetYawPitchToCenter
-		window->SetMouseOutsideWindow(false); // Set mouse status
-	}
-
-	if (window->MouseRegisteredInWindow()) {
-		camera->SetYawPitch(D3DXVECTOR2(mPos.x*0.01 - windowCenter.x, mPos.y*0.01 - windowCenter.y));
-	}
-
-	else camera->SetYawPitch(D3DXVECTOR2(0, 0));
+	//camera->SetYawPitch(D3DXVECTOR2(mouse->GetMousePosition().x*0.01, mouse->GetMousePosition().y*0.01));
+	
 	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
