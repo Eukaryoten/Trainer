@@ -4,6 +4,12 @@
 
 Pipeline::Pipeline(){
 
+	pointLight.pos = D3DXVECTOR4(0.0f, 1000.0f, -40.0f, 0.0f);
+	pointLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
+	pointLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+	pointLight.att = D3DXVECTOR4(0.5f, 1.0f, 0.0f, 0.0f);
+	pointLight.range = 10000.0f;
+
 }
 
 bool Pipeline::InitializeWindowSettings(HWND hWindow) {
@@ -125,9 +131,6 @@ bool Pipeline::InitializeConstantBuffers() {
 	constantBufferDesc.MiscFlags = 0;
 	dev->CreateBuffer(&constantBufferDesc, NULL, &devObjectConstantBuffer);
 
-	devCon->VSSetConstantBuffers(0, 1, &devObjectConstantBuffer);
-	devCon->PSSetConstantBuffers(0, 1, &devObjectConstantBuffer);
-
 	// Create frame constant buffer
 
 	ZeroMemory(&constantBufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -141,8 +144,10 @@ bool Pipeline::InitializeConstantBuffers() {
 	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	constantBufferDesc.CPUAccessFlags = 0;
 	constantBufferDesc.MiscFlags = 0;
-
 	dev->CreateBuffer(&constantBufferDesc, NULL, &devFrameConstantBuffer);
+
+	//cbPerFrame.light = pointLight;
+	//devCon->UpdateSubresource(devFrameConstantBuffer, 0, NULL, &cbPerFrame, 0, 0);
 
 	return true;
 

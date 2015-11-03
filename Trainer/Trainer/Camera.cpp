@@ -59,6 +59,10 @@ void Camera::Update(D3DXMATRIX *worldView) {
 
 }
 
+void Camera::FollowTarget(Base *base, float spacing) {
+
+}
+
 void Camera::SetYawPitch(D3DXVECTOR2 rot) {
 	yaw = rot.x;
 	pitch = rot.y;

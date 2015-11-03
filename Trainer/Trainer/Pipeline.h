@@ -34,6 +34,7 @@ public:
 private:
 
 	Shader* shaderList[2];
+	Light pointLight;
 
 	ID3D11Buffer *devObjectConstantBuffer;
 	ID3D11Buffer *devFrameConstantBuffer;

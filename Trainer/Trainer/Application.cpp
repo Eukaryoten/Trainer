@@ -1,8 +1,5 @@
 #include "Application.h"
 
-#define DEVCON pipeline->GetDeviceContext()
-#define DEV pipeline->GetDevice()
-
 Application::Application(HINSTANCE hInstance){
 
 	window = new Window(hInstance);
@@ -39,11 +36,11 @@ Application::Application(HINSTANCE hInstance){
 
 	// Point Light Initialization
 
-	pointLight.pos = D3DXVECTOR4(0.0f, 1000.0f, -40.0f, 0.0f);
+	pointLight.pos = D3DXVECTOR4(0.0f, 100.0f, -40.0f, 0.0f);
 	pointLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
 	pointLight.dif = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 	pointLight.att = D3DXVECTOR4(0.5f, 0.0f, 0.0f, 0.0f);
-	pointLight.range = 10000.0f;
+	pointLight.range = 1000.0f;
 }
 
 bool Application::InitializeGame(){
@@ -51,18 +48,29 @@ bool Application::InitializeGame(){
 	ID3D11Buffer *objCB = pipeline->GetObjectConstantBuffer();
 	ID3D11Buffer *frmCB = pipeline->GetFrameConstantBuffer();
 
-	gManager->Initialize(pipeline->GetDevice(), pipeline->GetDeviceContext());
+	// ********** The last line in this code does not assign the point light to the frame constant Buffer. ******** \\
 
-	pipeline->GetFrameStructure().light = pointLight;
-	pipeline->GetDeviceContext()->UpdateSubresource(pipeline->GetFrameConstantBuffer(), 0, NULL, &pipeline->GetFrameStructure(),0,0);
+	FrameConstantBuffer *fcb = &pipeline->GetFrameStructure();
+	fcb->light = pointLight; 
+
+	pipeline->GetFrameStructure().light = pointLight; // Need to examine why this line doesn't work and the others do
+	// Is it because it's just not being stored? What is it returning?
+
+	// ********** The last line in this code does not assign the point light to the frame constant Buffer. ******** \\
+
+
+
+	gManager->Initialize(pipeline->GetDevice(), pipeline->GetDeviceContext());
+	pipeline->GetDeviceContext()->VSSetConstantBuffers(0, 1, &objCB);
 	pipeline->GetDeviceContext()->PSSetConstantBuffers(0, 1, &frmCB);
+
+	
+	pipeline->GetDeviceContext()->UpdateSubresource(frmCB, 0, NULL, fcb,0,0);
 
 	return true;
 }
 
 void Application::Update(float dt){
-
-	//Vector2D windowCenter = window->GetWindowCenter();
 
 	float mSpeed = 6;
 	float rSpeed = 2;
@@ -89,15 +97,6 @@ void Application::Update(float dt){
 	}
 
 	window->BindMouseToWindow(mouse);
-	
-
-
-	// This function determines what happens when mouse enters window
-
-
-	//camera->SetYawPitch(D3DXVECTOR2(mouse->GetMousePosition().x*0.01, mouse->GetMousePosition().y*0.01));
-	
-	
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
 
@@ -125,9 +124,6 @@ void Application::Render(){
 	player->Draw(currentDrawSettings);
 	enemy->Draw(currentDrawSettings);
 	floor->Draw(currentDrawSettings);
-
-
-	pipeline->GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 
 	// End of drawing
