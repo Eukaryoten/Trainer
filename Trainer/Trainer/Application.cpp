@@ -4,14 +4,14 @@ Application::Application(HINSTANCE hInstance){
 
 	window = new WindowObject(hInstance);
 	mouse = new MouseObject();
-	pipeline = new Pipeline();
-	timer = new Timer();
+	pipeline = new PipelineObject();
+	timer = new TimerObject();
 	currentDrawSettings = new DrawObjectSettings();
 	
 	// Object memory allocation
 
 	camera = new CameraObject(&projection);
-	timer = new Timer();
+	timer = new TimerObject();
 	gManager = new GeometryManager<Vertex::ColouredNormal>();
 	
 	// Character Initialization

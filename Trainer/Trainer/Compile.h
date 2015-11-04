@@ -11,7 +11,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
-#include "Timer.h"
+#include "TimerObject.h"
 #include "PipelineDefinitions.h"
 #include "ShaderObject.h"
 #include <iostream>

@@ -6,7 +6,7 @@ MouseObject::MouseObject(){
 
 	currentPosition;
 	lastPosition;
-	positionTimer = 0;
+	positionTimerObject = 0;
 
 	GetCursorPos(&currentPosition);
 	lastPosition = currentPosition;
@@ -15,7 +15,7 @@ MouseObject::MouseObject(){
 
 void MouseObject::Update(float dt) {
 
-	//positionTimer += dt;
+	//positionTimerObject += dt;
 
 	lastPosition = currentPosition;
 	GetCursorPos(&currentPosition);

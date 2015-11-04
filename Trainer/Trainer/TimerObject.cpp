@@ -1,11 +1,11 @@
 //***************************************************************************************
-// Timer.cpp by Frank Luna (C) 2011 All Rights Reserved.
+// TimerObject.cpp by Frank Luna (C) 2011 All Rights Reserved.
 //***************************************************************************************
 
 #include <windows.h>
-#include "Timer.h"
+#include "TimerObject.h"
 
-Timer::Timer()
+TimerObject::TimerObject()
 	: mSecondsPerCount(0.0), mDeltaTime(-1.0), mBaseObjectTime(0),
 	mPausedTime(0), mPrevTime(0), mCurrTime(0), mStopped(false)
 {
@@ -16,7 +16,7 @@ Timer::Timer()
 
 // Returns the total time elapsed since Reset() was called, NOT counting any
 // time when the clock is stopped.
-float Timer::TotalTime()const
+float TimerObject::TotalTime()const
 {
 	// If we are stopped, do not count the time that has passed since we stopped.
 	// Moreover, if we previously already had a pause, the distance 
@@ -48,12 +48,12 @@ float Timer::TotalTime()const
 	}
 }
 
-float Timer::DeltaTime()const
+float TimerObject::DeltaTime()const
 {
 	return (float)mDeltaTime;
 }
 
-void Timer::Reset()
+void TimerObject::Reset()
 {
 	__int64 currTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
@@ -64,7 +64,7 @@ void Timer::Reset()
 	mStopped = false;
 }
 
-void Timer::Start()
+void TimerObject::Start()
 {
 	__int64 startTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
@@ -86,7 +86,7 @@ void Timer::Start()
 	}
 }
 
-void Timer::Stop()
+void TimerObject::Stop()
 {
 	if (!mStopped)
 	{
@@ -98,7 +98,7 @@ void Timer::Stop()
 	}
 }
 
-void Timer::Tick()
+void TimerObject::Tick()
 {
 	if (mStopped)
 	{
@@ -116,7 +116,7 @@ void Timer::Tick()
 	// Prepare for next frame.
 	mPrevTime = mCurrTime;
 
-	// Force nonnegative.  The DXSDK's CDXUTTimer mentions that if the 
+	// Force nonnegative.  The DXSDK's CDXUTTimerObject mentions that if the 
 	// processor goes into a power save mode or we get shuffled to another
 	// processor, then mDeltaTime can be negative.
 	if (mDeltaTime < 0.0)

@@ -4,10 +4,10 @@
 #include "ShaderObject.h"
 
 
-class Pipeline
+class PipelineObject
 {
 public:
-	Pipeline();
+	PipelineObject();
 
 	bool InitializeWindowSettings(HWND);
 	bool InitializeDirect3D();
@@ -30,7 +30,7 @@ public:
 	ID3D11RenderTargetView* GetBackBuffer();
 	ID3D11DepthStencilView* GetDepthStencilView();
 
-	~Pipeline();
+	~PipelineObject();
 private:
 
 	ShaderObject* shaderList[2];

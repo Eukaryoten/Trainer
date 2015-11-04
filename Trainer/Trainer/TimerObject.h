@@ -1,14 +1,14 @@
 //***************************************************************************************
-// GameTimer.h by Frank Luna (C) 2011 All Rights Reserved.
+// GameTimerObject.h by Frank Luna (C) 2011 All Rights Reserved.
 //***************************************************************************************
 
 #ifndef TIMER_H
 #define TIMER_H
 
-class Timer
+class TimerObject
 {
 public:
-	Timer();
+	TimerObject();
 
 	float TotalTime()const;  // in seconds
 	float DeltaTime()const; // in seconds

@@ -24,7 +24,7 @@ public:
 	~MouseObject();
 private:
 
-	float positionTimer;
+	float positionTimerObject;
 	POINT currentPosition;
 	POINT lastPosition;
 };

@@ -9,8 +9,8 @@ Framework::Framework(HINSTANCE hInstance){
 
 	window = new WindowObject(hInstance);
 	mouse = new MouseObject();
-	pipeline = new Pipeline();
-	timer = new Timer();
+	pipeline = new PipelineObject();
+	timer = new TimerObject();
 }
 
 int Framework::Run()

@@ -1,9 +1,9 @@
 #pragma once
 #include <time.h>
-#include "Timer.h"
+#include "TimerObject.h"
 #include "WindowObject.h"
 #include "MouseObject.h"
-#include "Pipeline.h"
+#include "PipelineObject.h"
 
 
 class Framework
@@ -30,8 +30,8 @@ protected:
 	MouseObject *mouse;
 
 
-	Pipeline *pipeline;
-	Timer* timer;
+	PipelineObject *pipeline;
+	TimerObject* timer;
 	WPARAM cWParam;
 	LPARAM cLParam;
 };

@@ -1,8 +1,8 @@
-#include "Pipeline.h"
+#include "PipelineObject.h"
 
 
 
-Pipeline::Pipeline(){
+PipelineObject::PipelineObject(){
 
 	pointLight.pos = D3DXVECTOR4(0.0f, 1000.0f, -40.0f, 0.0f);
 	pointLight.amb = D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f);
@@ -12,7 +12,7 @@ Pipeline::Pipeline(){
 
 }
 
-bool Pipeline::InitializeWindowSettings(HWND hWindowObject) {
+bool PipelineObject::InitializeWindowSettings(HWND hWindowObject) {
 
 	DXGI_MODE_DESC bufferDesc;
 
@@ -58,7 +58,7 @@ bool Pipeline::InitializeWindowSettings(HWND hWindowObject) {
 	return true;
 }
 
-bool Pipeline::InitializeDepthStencil() {
+bool PipelineObject::InitializeDepthStencil() {
 
 	D3D11_TEXTURE2D_DESC depthStencilDesc;
 
@@ -81,7 +81,7 @@ bool Pipeline::InitializeDepthStencil() {
 	return true;
 
 }
-bool Pipeline::InitializeViewportAndSampler() {
+bool PipelineObject::InitializeViewportAndSampler() {
 
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -106,7 +106,7 @@ bool Pipeline::InitializeViewportAndSampler() {
 
 	dev->CreateSamplerState(&sampDesc, &samplerState);
 
-	// Update Pipeline
+	// Update PipelineObject
 
 	devCon->PSSetSamplers(0, 1, &samplerState);
 	devCon->RSSetViewports(1, &viewport);
@@ -114,7 +114,7 @@ bool Pipeline::InitializeViewportAndSampler() {
 	return true;
 
 }
-bool Pipeline::InitializeConstantBuffers() {
+bool PipelineObject::InitializeConstantBuffers() {
 
 	// Create object constant buffer
 
@@ -154,7 +154,7 @@ bool Pipeline::InitializeConstantBuffers() {
 }
 
 
-bool Pipeline::InitializeShaderObjects() {
+bool PipelineObject::InitializeShaderObjects() {
 
 	shaderList[0] = new ShaderObject(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
 	shaderList[1] = new ShaderObject(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
@@ -163,11 +163,11 @@ bool Pipeline::InitializeShaderObjects() {
 
 }
 
-void Pipeline::SetShaderObject(ShaderObjectType i) {
+void PipelineObject::SetShaderObject(ShaderObjectType i) {
 	shaderList[i]->SetShaderObject(devCon);
 }
 
-bool Pipeline::InitializeDirect3D() {
+bool PipelineObject::InitializeDirect3D() {
 
 	if (!InitializeDepthStencil()) return false;
 	if (!InitializeViewportAndSampler()) return false;
@@ -178,40 +178,40 @@ bool Pipeline::InitializeDirect3D() {
 
 }
 
-ID3D11Device* Pipeline::GetDevice() {
+ID3D11Device* PipelineObject::GetDevice() {
 	return dev;
 }
 
-ID3D11DeviceContext* Pipeline::GetDeviceContext() {
+ID3D11DeviceContext* PipelineObject::GetDeviceContext() {
 	return devCon;
 }
 
-IDXGISwapChain* Pipeline::GetSwapChain() {
+IDXGISwapChain* PipelineObject::GetSwapChain() {
 	return swapChain;
 }
-ID3D11Buffer* Pipeline::GetObjectConstantBuffer() {
+ID3D11Buffer* PipelineObject::GetObjectConstantBuffer() {
 	return devObjectConstantBuffer;
 }
-ID3D11Buffer* Pipeline::GetFrameConstantBuffer() {
+ID3D11Buffer* PipelineObject::GetFrameConstantBuffer() {
 	return devFrameConstantBuffer;
 }
-ObjectConstantBuffer Pipeline::GetObjectStructure() {
+ObjectConstantBuffer PipelineObject::GetObjectStructure() {
 	return cbPerObj;
 }
-FrameConstantBuffer Pipeline::GetFrameStructure() {
+FrameConstantBuffer PipelineObject::GetFrameStructure() {
 	return cbPerFrame;
 }
 
-ID3D11RenderTargetView* Pipeline::GetBackBuffer() {
+ID3D11RenderTargetView* PipelineObject::GetBackBuffer() {
 	return backBuffer;
 }
 
-ID3D11DepthStencilView* Pipeline::GetDepthStencilView() {
+ID3D11DepthStencilView* PipelineObject::GetDepthStencilView() {
 	return depthStencilView;
 }
 
 
-Pipeline::~Pipeline(){
+PipelineObject::~PipelineObject(){
 
 	devObjectConstantBuffer->Release();
 	devFrameConstantBuffer->Release();
