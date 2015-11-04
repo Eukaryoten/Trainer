@@ -1,15 +1,15 @@
-#include "Camera.h"
+#include "CameraObject.h"
 
 
 
-Camera::Camera(D3DXMATRIX* worldProjection){
+CameraObject::CameraObject(D3DXMATRIX* worldProjection){
 
-	// Temporary Camera Initialization
+	// Temporary CameraObject Initialization
 
 	currentUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	currentPosition = D3DXVECTOR3(0.0f, 2.0f, -10.0f);
 	target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	D3DXMatrixPerspectiveFovLH(&projection, 0.4*3.14f, (float)(SCREEN_WIDTH / SCREEN_HEIGHT), 1.0f, 1000.0f); // Set the cameras aspect ratio
+	D3DXMatrixPerspectiveFovLH(&projection, 0.4*3.14f, (float)(SCREEN_WIDTH / SCREEN_HEIGHT), 1.0f, 1000.0f); // Set the CameraObjects aspect ratio
 
 	localAxisPosition.x = 0;
 	localAxisPosition.y = 0;
@@ -21,7 +21,7 @@ Camera::Camera(D3DXMATRIX* worldProjection){
 	*worldProjection = projection;
 }
 
-void Camera::Update(D3DXMATRIX *worldView) {
+void CameraObject::Update(D3DXMATRIX *worldView) {
 
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, 0); // Store the rotation matrix
 	D3DXVec3TransformCoord(&target, &defaultForward, &rotationMatrix); // Transform the forward vector by the rotation matrix and store in target
@@ -59,24 +59,24 @@ void Camera::Update(D3DXMATRIX *worldView) {
 
 }
 
-void Camera::FollowTarget(Base *base, float spacing) {
+void CameraObject::FollowTarget(BaseObject *BaseObject, float spacing) {
 
 }
 
-void Camera::SetYawPitch(D3DXVECTOR2 rot) {
+void CameraObject::SetYawPitch(D3DXVECTOR2 rot) {
 	yaw = rot.x;
 	pitch = rot.y;
 }
 
-void Camera::Rotate(D3DXVECTOR3 rot) {
+void CameraObject::Rotate(D3DXVECTOR3 rot) {
 	yaw += rot.x;
 	pitch += rot.y;
 }
 
-void Camera::CleanUp() {
+void CameraObject::CleanUp() {
 
 }
 
 
-Camera::~Camera(){
+CameraObject::~CameraObject(){
 }

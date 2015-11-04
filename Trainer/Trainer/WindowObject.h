@@ -4,34 +4,34 @@
 #include <math.h>
 #include "WindowDefinitions.h"
 #include "KeyboardControls.h"
-#include "Mouse.h"
+#include "MouseObject.h"
 
-class Window
+class WindowObject
 {
 public:
 
-	Window(HINSTANCE hInstance);
+	WindowObject(HINSTANCE hInstance);
 
 	void Update(float dt);
 
 
-	Vector2D GetWindowCenter();
-	bool InitializeWindow();
+	Vector2D GetWindowObjectCenter();
+	bool InitializeWindowObject();
 
-	void SetWindowTitle(LPCWSTR lpString);
+	void SetWindowObjectTitle(LPCWSTR lpString);
 	void SetFrameStats(float framesPS, float milisecondsPF);
 
 
-	bool BoolMouseInWindow(Mouse* mouse);
-	void BindMouseToWindow(Mouse* mouse);
+	bool BoolMouseObjectInWindowObject(MouseObject* MouseObject);
+	void BindMouseObjectToWindowObject(MouseObject* MouseObject);
 
 	HWND GetHandle();
 	std::wstring GetApplicationTitle();
-	bool DisplayWindow();
+	bool DisplayWindowObject();
 	
 	LRESULT MessageProc(HWND, UINT, WPARAM, LPARAM);
 
-	~Window();
+	~WindowObject();
 private:
 
 	RECT *window;

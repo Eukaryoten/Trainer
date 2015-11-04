@@ -1,7 +1,7 @@
 #pragma once
 #include "PipelineDefinitions.h"
 #include "WindowDefinitions.h"
-#include "Shader.h"
+#include "ShaderObject.h"
 
 
 class Pipeline
@@ -11,14 +11,14 @@ public:
 
 	bool InitializeWindowSettings(HWND);
 	bool InitializeDirect3D();
-	bool InitializeShaders();
+	bool InitializeShaderObjects();
 
 	bool InitializeDepthStencil();
 	bool InitializeViewportAndSampler();
 	bool InitializeConstantBuffers();
 	
 
-	void SetShader(ShaderType);
+	void SetShaderObject(ShaderObjectType);
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
@@ -33,7 +33,7 @@ public:
 	~Pipeline();
 private:
 
-	Shader* shaderList[2];
+	ShaderObject* shaderList[2];
 	Light pointLight;
 
 	ID3D11Buffer *devObjectConstantBuffer;

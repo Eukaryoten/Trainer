@@ -5,11 +5,11 @@
 #include <d3dx10.h>
 #include "PipelineDefinitions.h"
 
-class Base
+class BaseObject
 {
 public:
 
-	Base(); // Constructor
+	BaseObject(); // Constructor
 
 	void SetRotation(D3DXVECTOR3); // Sets the rotation vector used to transform the objects matrix
 	void SetPosition(D3DXVECTOR3); // Sets the currentPosition attribute by a vector argument
@@ -21,13 +21,13 @@ public:
 	D3DXVECTOR3 GetPosition(); // Returns the attribute currentPosition which is the centre of the object
 
 	virtual void CleanUp() = 0; // Pure virtual function rendering this abstract - helper to make sure memory is de-allocated
-	virtual ~Base(); // Destructor
+	virtual ~BaseObject(); // Destructor
 
 protected:
 
 	// Matrices
 
-	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into camera space
+	D3DXMATRIX WVP; // World Matrix * View Matrix * Projection Matrix - Helper attribute which is used to transform object into CameraObject space
 	D3DXMATRIX world; // Objects matrix in world space
 	D3DXMATRIX viewProjection; // Another helper matrix 
 	D3DXMATRIX scaleMatrix; // Used to scale object

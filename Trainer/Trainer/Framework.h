@@ -1,8 +1,8 @@
 #pragma once
 #include <time.h>
 #include "Timer.h"
-#include "Window.h"
-#include "Mouse.h"
+#include "WindowObject.h"
+#include "MouseObject.h"
 #include "Pipeline.h"
 
 
@@ -26,8 +26,8 @@ public:
 	virtual ~Framework();
 protected:
 
-	Window *window;
-	Mouse *mouse;
+	WindowObject *window;
+	MouseObject *mouse;
 
 
 	Pipeline *pipeline;

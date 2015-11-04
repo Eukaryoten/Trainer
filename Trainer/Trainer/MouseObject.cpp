@@ -1,8 +1,8 @@
-#include "Mouse.h"
+#include "MouseObject.h"
 
 
 
-Mouse::Mouse(){
+MouseObject::MouseObject(){
 
 	currentPosition;
 	lastPosition;
@@ -13,7 +13,7 @@ Mouse::Mouse(){
 	
 }
 
-void Mouse::Update(float dt) {
+void MouseObject::Update(float dt) {
 
 	//positionTimer += dt;
 
@@ -21,7 +21,7 @@ void Mouse::Update(float dt) {
 	GetCursorPos(&currentPosition);
 }
 
-Vector2D Mouse::GetPosition() {
+Vector2D MouseObject::GetPosition() {
 
 	Vector2D pos;
 
@@ -34,7 +34,7 @@ Vector2D Mouse::GetPosition() {
 
 }
 
-Vector2D Mouse::GetDeltaMousePosition(float dt) {
+Vector2D MouseObject::GetDeltaMouseObjectPosition(float dt) {
 
 	Vector2D deltaPosition;
 
@@ -44,30 +44,30 @@ Vector2D Mouse::GetDeltaMousePosition(float dt) {
 	return deltaPosition;
 }
 
-bool Mouse::BoolMouseJustEnteredWindow() {
+bool MouseObject::BoolMouseObjectJustEnteredWindowObject() {
 	return true;
 }
 
-bool Mouse::BoolMouseRegisteredInWindow() {
+bool MouseObject::BoolMouseObjectRegisteredInWindowObject() {
 	return true;
 }
 
-void Mouse::CenterMouseToWindow() {
+void MouseObject::CenterMouseObjectToWindowObject() {
 
-	//Vector2D center = GetWindowCenter();
+	//Vector2D center = GetWindowObjectCenter();
 	//SetCursorPos(center.x, center.y);
 
 }
 
-void Mouse::SetMouseOutsideWindow(bool mouse) {
+void MouseObject::SetMouseObjectOutsideWindowObject(bool MouseObject) {
 }
 
 
-void Mouse::SetMousePosition(int x, int y) {
+void MouseObject::SetMouseObjectPosition(int x, int y) {
 
 	SetCursorPos(x, y);
 }
 
-Mouse::~Mouse()
+MouseObject::~MouseObject()
 {
 }

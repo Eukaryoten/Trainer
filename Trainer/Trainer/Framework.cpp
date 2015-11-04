@@ -7,8 +7,8 @@ Framework::Framework(void){
 
 Framework::Framework(HINSTANCE hInstance){
 
-	window = new Window(hInstance);
-	mouse = new Mouse();
+	window = new WindowObject(hInstance);
+	mouse = new MouseObject();
 	pipeline = new Pipeline();
 	timer = new Timer();
 }
@@ -64,9 +64,9 @@ void Framework::CalculateFrameStats(){
 
 bool Framework::Initialize(){
 
-	if (!window->InitializeWindow()) return false;
+	if (!window->InitializeWindowObject()) return false;
 	if (!pipeline->InitializeWindowSettings(window->GetHandle())) return false;
-	if (!window->DisplayWindow()) return false;
+	if (!window->DisplayWindowObject()) return false;
 	if (!pipeline->InitializeDirect3D()) return false;
 	if (!InitializeGame()) return false;
 	return true;

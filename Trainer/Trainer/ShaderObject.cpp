@@ -1,10 +1,10 @@
-#include "Shader.h"
+#include "ShaderObject.h"
 
 
-Shader::Shader(ID3D11Device *dev, LPCTSTR shaderSourceFile, Vertex::LayoutType layout) {
+ShaderObject::ShaderObject(ID3D11Device *dev, LPCTSTR shaderSourceFile, Vertex::LayoutType layout) {
 
-	D3DX11CompileFromFile(shaderSourceFile, 0, 0, "VS", "vs_5_0", 0, 0, 0, &vsBlob, 0, 0); // Vertex Shader Stage
-	D3DX11CompileFromFile(shaderSourceFile, 0, 0, "PS", "ps_5_0", 0, 0, 0, &psBlob, 0, 0); // Pixel Shader Stage
+	D3DX11CompileFromFile(shaderSourceFile, 0, 0, "VS", "vs_5_0", 0, 0, 0, &vsBlob, 0, 0); // Vertex ShaderObject Stage
+	D3DX11CompileFromFile(shaderSourceFile, 0, 0, "PS", "ps_5_0", 0, 0, 0, &psBlob, 0, 0); // Pixel ShaderObject Stage
 
 	dev->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), NULL, &vertexShader);
 	dev->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), NULL, &pixelShader);
@@ -32,13 +32,13 @@ Shader::Shader(ID3D11Device *dev, LPCTSTR shaderSourceFile, Vertex::LayoutType l
 
 }
 
-void Shader::SetShader(ID3D11DeviceContext *devCon) {
+void ShaderObject::SetShaderObject(ID3D11DeviceContext *devCon) {
 	devCon->VSSetShader(vertexShader, 0, 0);
 	devCon->PSSetShader(pixelShader, 0, 0);
 	devCon->IASetInputLayout(inputLayout);
 }
 
-Shader::~Shader() {
+ShaderObject::~ShaderObject() {
 	inputLayout->Release();
 	vsBlob->Release();
 	psBlob->Release();

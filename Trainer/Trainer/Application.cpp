@@ -2,15 +2,15 @@
 
 Application::Application(HINSTANCE hInstance){
 
-	window = new Window(hInstance);
-	mouse = new Mouse();
+	window = new WindowObject(hInstance);
+	mouse = new MouseObject();
 	pipeline = new Pipeline();
 	timer = new Timer();
 	currentDrawSettings = new DrawObjectSettings();
 	
 	// Object memory allocation
 
-	camera = new Camera(&projection);
+	camera = new CameraObject(&projection);
 	timer = new Timer();
 	gManager = new GeometryManager<Vertex::ColouredNormal>();
 	
@@ -79,6 +79,7 @@ void Application::Update(float dt){
 	window->Update(dt);
 	mouse->Update(dt);
 	camera->Update(&view);
+	camera->FollowTarget(player, 10);
 
 	if (KeyboardControls::GetLeftKey())  camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
 	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3( rSpeed*dt, 0.0, 0));
@@ -89,14 +90,14 @@ void Application::Update(float dt){
 	if (KeyboardControls::GetDKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
 
 
-	if (window->BoolMouseInWindow(mouse)) {
-		camera->Rotate(D3DXVECTOR3(mouse->GetDeltaMousePosition(dt).x*0.01,
-								   mouse->GetDeltaMousePosition(dt).y*0.01,
+	if (window->BoolMouseObjectInWindowObject(mouse)) {
+		camera->Rotate(D3DXVECTOR3(mouse->GetDeltaMouseObjectPosition(dt).x*0.01,
+			mouse->GetDeltaMouseObjectPosition(dt).y*0.01,
 								   0));
 		ShowCursor(false);
 	}
 
-	window->BindMouseToWindow(mouse);
+	window->BindMouseObjectToWindowObject(mouse);
 	player->SetRotation(D3DXVECTOR3(0.0,-rot, 0.0));
 	enemy->SetRotation(D3DXVECTOR3(0.0, rot, 0.0));
 
@@ -119,7 +120,7 @@ void Application::Render(){
 
 	// Drawing starts here
 
-	pipeline->SetShader(PointLight);
+	pipeline->SetShaderObject(PointLight);
 
 	player->Draw(currentDrawSettings);
 	enemy->Draw(currentDrawSettings);

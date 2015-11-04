@@ -2,7 +2,7 @@
 
 #include "ApplicationDefinitions.h"
 #include "Framework.h"
-#include "Camera.h"
+#include "CameraObject.h"
 #include "GameObject.h"
 #include "GeometryManager.h"
 
@@ -24,7 +24,7 @@ private:
 
 	DrawObjectSettings *currentDrawSettings;
 
-	Camera *camera;
+	CameraObject *camera;
 
 	float rot;
 

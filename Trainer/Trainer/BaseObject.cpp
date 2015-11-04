@@ -1,7 +1,7 @@
-#include "Base.h"
+#include "BaseObject.h"
 
 
-Base::Base(){
+BaseObject::BaseObject(){
 
 	// Initialize attributes
 
@@ -18,7 +18,7 @@ Base::Base(){
 	currentPosition = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 }
-void Base::SetRotation(D3DXVECTOR3 input){
+void BaseObject::SetRotation(D3DXVECTOR3 input){
 
 	currentRotation = input;
 
@@ -33,29 +33,29 @@ void Base::SetRotation(D3DXVECTOR3 input){
 	rotationMatrix = xRot * yRot * zRot;
 
 }
-void Base::SetPosition(D3DXVECTOR3 pos){
+void BaseObject::SetPosition(D3DXVECTOR3 pos){
 	currentPosition = pos;
 	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
 }
 
-void Base::SetScale(D3DXVECTOR3 scale) {
+void BaseObject::SetScale(D3DXVECTOR3 scale) {
 	currentScale = scale;
 	D3DXMatrixScaling(&scaleMatrix, currentScale.x, currentScale.y, currentScale.z);
 }
 
-D3DXMATRIX Base::GetMatrix(){
+D3DXMATRIX BaseObject::GetMatrix(){
 	return world;
 }
-D3DXVECTOR3 Base::GetPosition(){
+D3DXVECTOR3 BaseObject::GetPosition(){
 	return currentPosition;
 }
 
-void Base::TranslatePosition(D3DXVECTOR3 pos){
+void BaseObject::TranslatePosition(D3DXVECTOR3 pos){
 	currentPosition += pos;
 	D3DXMatrixTranslation(&translationMatrix, currentPosition.x, currentPosition.y, currentPosition.z);
 }
 
-void Base::TranslatePositionAlongLocalAxis(D3DXVECTOR3 offset) {
+void BaseObject::TranslatePositionAlongLocalAxis(D3DXVECTOR3 offset) {
 
 	D3DXVECTOR3 lastAxisPosition = localAxisPosition;
 	localAxisPosition = offset;
@@ -66,5 +66,5 @@ void Base::TranslatePositionAlongLocalAxis(D3DXVECTOR3 offset) {
 	
 }
 
-Base::~Base(){
+BaseObject::~BaseObject(){
 }

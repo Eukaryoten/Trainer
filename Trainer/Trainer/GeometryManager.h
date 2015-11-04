@@ -80,7 +80,7 @@ void GeometryManager<Layout>::DrawLineFromCircleCentre(ID3D11DeviceContext *devC
 	float angleBetweenVectors;
 	float smallestDifference = angle;
 	int tempDifference;
-	D3DXVECTOR2 baseVector = D3DXVECTOR2(1, 0);
+	D3DXVECTOR2 BaseObjectVector = D3DXVECTOR2(1, 0);
 	D3DXVECTOR2 secondaryVector;
 	int x = 0;
 
@@ -97,7 +97,7 @@ void GeometryManager<Layout>::DrawLineFromCircleCentre(ID3D11DeviceContext *devC
 
 		if (x == 0) {
 
-			angleBetweenVectors = acos(D3DXVec2Dot(&baseVector, &secondaryVector));
+			angleBetweenVectors = acos(D3DXVec2Dot(&BaseObjectVector, &secondaryVector));
 			tempDifference = abs(angle - angleBetweenVectors);
 
 			if (tempDifference < smallestDifference) {

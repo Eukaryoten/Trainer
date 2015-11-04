@@ -12,7 +12,7 @@ Pipeline::Pipeline(){
 
 }
 
-bool Pipeline::InitializeWindowSettings(HWND hWindow) {
+bool Pipeline::InitializeWindowSettings(HWND hWindowObject) {
 
 	DXGI_MODE_DESC bufferDesc;
 
@@ -34,7 +34,7 @@ bool Pipeline::InitializeWindowSettings(HWND hWindow) {
 	swapChainDesc.SampleDesc.Quality = 0;                             // Multisample quality level
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // How swap chain is to be used
 	swapChainDesc.BufferCount = 1;                                    // One back buffer
-	swapChainDesc.OutputWindow = hWindow;                                // the window to be used
+	swapChainDesc.OutputWindow = hWindowObject;                                // the window to be used
 	swapChainDesc.Windowed = TRUE;                                    // windowed/full-screen mode
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
@@ -154,17 +154,17 @@ bool Pipeline::InitializeConstantBuffers() {
 }
 
 
-bool Pipeline::InitializeShaders() {
+bool Pipeline::InitializeShaderObjects() {
 
-	shaderList[0] = new Shader(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
-	shaderList[1] = new Shader(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
+	shaderList[0] = new ShaderObject(dev, L"DirectionalLight.shader", Vertex::ColouredNormalLayout);
+	shaderList[1] = new ShaderObject(dev, L"PointLight.shader", Vertex::ColouredNormalLayout);
 
 	return true;
 
 }
 
-void Pipeline::SetShader(ShaderType i) {
-	shaderList[i]->SetShader(devCon);
+void Pipeline::SetShaderObject(ShaderObjectType i) {
+	shaderList[i]->SetShaderObject(devCon);
 }
 
 bool Pipeline::InitializeDirect3D() {
@@ -172,7 +172,7 @@ bool Pipeline::InitializeDirect3D() {
 	if (!InitializeDepthStencil()) return false;
 	if (!InitializeViewportAndSampler()) return false;
 	if (!InitializeConstantBuffers()) return false;
-	if (!InitializeShaders()) return false;
+	if (!InitializeShaderObjects()) return false;
 
 	return true;
 

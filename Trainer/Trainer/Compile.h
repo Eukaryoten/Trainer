@@ -13,7 +13,7 @@
 #include <time.h>
 #include "Timer.h"
 #include "PipelineDefinitions.h"
-#include "Shader.h"
+#include "ShaderObject.h"
 #include <iostream>
 
 #define SCREEN_WIDTH     900

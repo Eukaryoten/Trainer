@@ -1,8 +1,8 @@
 #pragma once
-#include "Base.h"
+#include "BaseObject.h"
 #include "ApplicationDefinitions.h"
 
-class GameObject : public Base
+class GameObject : public BaseObject
 {
 public:
 	GameObject(float r, float g, float b);

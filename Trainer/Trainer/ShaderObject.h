@@ -2,13 +2,13 @@
 
 #include "Vertex.h"
 
-class Shader
+class ShaderObject
 {
 public:
-	Shader(ID3D11Device *dev, LPCTSTR shaderSourceFile, Vertex::LayoutType layout);
-	void SetShader(ID3D11DeviceContext *devCon);
+	ShaderObject(ID3D11Device *dev, LPCTSTR shaderSourceFile, Vertex::LayoutType layout);
+	void SetShaderObject(ID3D11DeviceContext *devCon);
 
-	~Shader();
+	~ShaderObject();
 
 private:
 
