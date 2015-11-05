@@ -155,8 +155,9 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CameraObject.cpp" />
-    <ClCompile Include="KeyboardControls.cpp" />
+    <ClCompile Include="KeyboardState.cpp" />
     <ClCompile Include="MouseObject.cpp" />
+    <ClCompile Include="Notes.cpp" />
     <ClCompile Include="PipelineObject.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -169,7 +170,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="ApplicationDefinitions.h" />
-    <ClInclude Include="KeyboardControls.h" />
+    <ClInclude Include="KeyboardState.h" />
     <ClInclude Include="MouseObject.h" />
     <ClInclude Include="WindowDefinitions.h" />
     <ClInclude Include="BaseObject.h" />

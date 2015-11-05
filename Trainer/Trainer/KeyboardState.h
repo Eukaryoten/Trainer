@@ -1,9 +1,7 @@
 #pragma once
-class KeyboardControls
+class KeyboardState
 {
 public:
-
-	KeyboardControls();
 
 	static void SetUpKey(bool);
 	static void SetDownKey(bool);
@@ -20,17 +18,13 @@ public:
 	static bool GetLeftKey();
 	static bool GetRightKey();
 
-
 	static bool GetWKey();
 	static bool GetAKey();
 	static bool GetSKey();
 	static bool GetDKey();
 
-
-	
-	~KeyboardControls();
-
 private:
+
 	static bool upKey;
 	static bool downKey;
 	static bool leftKey;

@@ -127,33 +127,33 @@ std::wstring WindowObject::GetApplicationTitle() {
 
 LRESULT WindowObject::MessageProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
-	switch (msg)
+	switch (msg) // Check the message and then decide on what to do with message
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
-	case WM_KEYDOWN:
-		if (wParam == VK_ESCAPE) DestroyWindow(hWnd);
-		if (wParam == VK_LEFT  ) KeyboardControls::SetLeftKey(true);
-		if (wParam == VK_RIGHT ) KeyboardControls::SetRightKey(true); 
-		if (wParam == VK_UP    ) KeyboardControls::SetUpKey(true);
-		if (wParam == VK_DOWN  ) KeyboardControls::SetDownKey(true);
+	case WM_KEYDOWN: // If message = WM_KEYDOWN
+		if (wParam == VK_ESCAPE) DestroyWindow(hWnd); // Then check the additional wParam
+		if (wParam == VK_LEFT  ) KeyboardState::SetLeftKey(true);
+		if (wParam == VK_RIGHT ) KeyboardState::SetRightKey(true);
+		if (wParam == VK_UP    ) KeyboardState::SetUpKey(true);
+		if (wParam == VK_DOWN  ) KeyboardState::SetDownKey(true);
 
-		if (wParam == VK_W) KeyboardControls::SetWKey(true);
-		if (wParam == VK_A) KeyboardControls::SetAKey(true);
-		if (wParam == VK_S) KeyboardControls::SetSKey(true);
-		if (wParam == VK_D) KeyboardControls::SetDKey(true);
+		if (wParam == VK_W) KeyboardState::SetWKey(true);
+		if (wParam == VK_A) KeyboardState::SetAKey(true);
+		if (wParam == VK_S) KeyboardState::SetSKey(true);
+		if (wParam == VK_D) KeyboardState::SetDKey(true);
 		return 0;
 	case WM_KEYUP:
-		if (wParam == VK_LEFT) KeyboardControls::SetLeftKey(false);
-		if (wParam == VK_RIGHT) KeyboardControls::SetRightKey(false);
-		if (wParam == VK_UP) KeyboardControls::SetUpKey(false);
-		if (wParam == VK_DOWN) KeyboardControls::SetDownKey(false);
+		if (wParam == VK_LEFT) KeyboardState::SetLeftKey(false);
+		if (wParam == VK_RIGHT) KeyboardState::SetRightKey(false);
+		if (wParam == VK_UP) KeyboardState::SetUpKey(false);
+		if (wParam == VK_DOWN) KeyboardState::SetDownKey(false);
 
-		if (wParam == VK_W) KeyboardControls::SetWKey(false);
-		if (wParam == VK_A) KeyboardControls::SetAKey(false);
-		if (wParam == VK_S) KeyboardControls::SetSKey(false);
-		if (wParam == VK_D) KeyboardControls::SetDKey(false);
+		if (wParam == VK_W) KeyboardState::SetWKey(false);
+		if (wParam == VK_A) KeyboardState::SetAKey(false);
+		if (wParam == VK_S) KeyboardState::SetSKey(false);
+		if (wParam == VK_D) KeyboardState::SetDKey(false);
 		return 0;
 	}
 

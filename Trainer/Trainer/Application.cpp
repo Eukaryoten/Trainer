@@ -81,13 +81,13 @@ void Application::Update(float dt){
 	camera->Update(&view);
 	camera->FollowTarget(player, 10);
 
-	if (KeyboardControls::GetLeftKey())  camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
-	if (KeyboardControls::GetRightKey()) camera->Rotate(D3DXVECTOR3( rSpeed*dt, 0.0, 0));
+	if (KeyboardState::GetLeftKey())  camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
+	if (KeyboardState::GetRightKey()) camera->Rotate(D3DXVECTOR3( rSpeed*dt, 0.0, 0));
 
-	if (KeyboardControls::GetWKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
-	if (KeyboardControls::GetAKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
-	if (KeyboardControls::GetSKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
-	if (KeyboardControls::GetDKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
+	if (KeyboardState::GetWKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
+	if (KeyboardState::GetAKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
+	if (KeyboardState::GetSKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
+	if (KeyboardState::GetDKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
 
 
 	if (window->BoolMouseObjectInWindowObject(mouse)) {
