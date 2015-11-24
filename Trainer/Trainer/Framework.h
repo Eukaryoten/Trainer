@@ -2,7 +2,8 @@
 #include <time.h>
 #include "TimerObject.h"
 #include "WindowObject.h"
-#include "MouseObject.h"
+#include "StandardMouse.h"
+#include "StandardKeyboard.h"
 #include "PipelineObject.h"
 
 
@@ -27,7 +28,8 @@ public:
 protected:
 
 	WindowObject *window;
-	MouseObject *mouse;
+	StandardMouse *mouse;
+	StandardKeyboard *keyboard;
 
 
 	PipelineObject *pipeline;

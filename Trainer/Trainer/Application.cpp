@@ -3,7 +3,8 @@
 Application::Application(HINSTANCE hInstance){
 
 	window = new WindowObject(hInstance);
-	mouse = new MouseObject();
+	mouse = (StandardMouse*)StandardMouse::GetInstance();
+	keyboard = (StandardKeyboard*)StandardKeyboard::GetInstance();
 	pipeline = new PipelineObject();
 	timer = new TimerObject();
 	currentDrawSettings = new DrawObjectSettings();
@@ -81,13 +82,13 @@ void Application::Update(float dt){
 	camera->Update(&view);
 	camera->FollowTarget(player, 10);
 
-	if (KeyboardState::GetLeftKey())  camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
-	if (KeyboardState::GetRightKey()) camera->Rotate(D3DXVECTOR3( rSpeed*dt, 0.0, 0));
+	if (keyboard->GetLeftKey())  camera->Rotate(D3DXVECTOR3(-rSpeed*dt, 0.0, 0));
+	if (keyboard->GetRightKey()) camera->Rotate(D3DXVECTOR3( rSpeed*dt, 0.0, 0));
 
-	if (KeyboardState::GetWKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
-	if (KeyboardState::GetAKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
-	if (KeyboardState::GetSKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
-	if (KeyboardState::GetDKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
+	if (keyboard->GetWKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0,0.0, mSpeed*dt));
+	if (keyboard->GetAKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(-mSpeed*dt, 0.0,0.0));
+	if (keyboard->GetSKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(0.0, 0.0, -mSpeed*dt));
+	if (keyboard->GetDKey()) camera->TranslatePositionAlongLocalAxis(D3DXVECTOR3(mSpeed*dt, 0.0, 0.0));
 
 
 	if (window->BoolMouseObjectInWindowObject(mouse)) {

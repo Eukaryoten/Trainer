@@ -11,4 +11,5 @@ struct DrawObjectSettings {
 	ID3D11Buffer* devConstantBuffer;
 	ObjectConstantBuffer* constantBuffer;
 	D3DXMATRIX viewProjection;
+
 };

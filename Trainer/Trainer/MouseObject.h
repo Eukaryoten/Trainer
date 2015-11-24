@@ -5,8 +5,6 @@
 class MouseObject
 {
 public:
-	MouseObject();
-
 	void Update(float dt);
 
 	void SetMouseObjectOutsideWindowObject(bool);
@@ -21,9 +19,8 @@ public:
 	Vector2D GetDeltaMouseObjectPosition(float dt);
 	void CenterMouseObjectToWindowObject();
 
-	~MouseObject();
-private:
-
+protected:
+	static MouseObject *instance;
 	POINT currentPosition;
 	POINT lastPosition;
 };

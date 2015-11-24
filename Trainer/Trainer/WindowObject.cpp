@@ -127,6 +127,8 @@ std::wstring WindowObject::GetApplicationTitle() {
 
 LRESULT WindowObject::MessageProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
+	static KeyboardObject* keyboard = (StandardKeyboard*)StandardKeyboard::GetInstance();
+
 	switch (msg) // Check the message and then decide on what to do with message
 	{
 	case WM_DESTROY:
@@ -134,26 +136,26 @@ LRESULT WindowObject::MessageProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		return 0;
 	case WM_KEYDOWN: // If message = WM_KEYDOWN
 		if (wParam == VK_ESCAPE) DestroyWindow(hWnd); // Then check the additional wParam
-		if (wParam == VK_LEFT  ) KeyboardState::SetLeftKey(true);
-		if (wParam == VK_RIGHT ) KeyboardState::SetRightKey(true);
-		if (wParam == VK_UP    ) KeyboardState::SetUpKey(true);
-		if (wParam == VK_DOWN  ) KeyboardState::SetDownKey(true);
+		if (wParam == VK_LEFT  ) keyboard->SetLeftKey(true);
+		if (wParam == VK_RIGHT ) keyboard->SetRightKey(true);
+		if (wParam == VK_UP    ) keyboard->SetUpKey(true);
+		if (wParam == VK_DOWN  ) keyboard->SetDownKey(true);
 
-		if (wParam == VK_W) KeyboardState::SetWKey(true);
-		if (wParam == VK_A) KeyboardState::SetAKey(true);
-		if (wParam == VK_S) KeyboardState::SetSKey(true);
-		if (wParam == VK_D) KeyboardState::SetDKey(true);
+		if (wParam == VK_W) keyboard->SetWKey(true);
+		if (wParam == VK_A) keyboard->SetAKey(true);
+		if (wParam == VK_S) keyboard->SetSKey(true);
+		if (wParam == VK_D) keyboard->SetDKey(true);
 		return 0;
 	case WM_KEYUP:
-		if (wParam == VK_LEFT) KeyboardState::SetLeftKey(false);
-		if (wParam == VK_RIGHT) KeyboardState::SetRightKey(false);
-		if (wParam == VK_UP) KeyboardState::SetUpKey(false);
-		if (wParam == VK_DOWN) KeyboardState::SetDownKey(false);
+		if (wParam == VK_LEFT) keyboard->SetLeftKey(false);
+		if (wParam == VK_RIGHT) keyboard->SetRightKey(false);
+		if (wParam == VK_UP) keyboard->SetUpKey(false);
+		if (wParam == VK_DOWN) keyboard->SetDownKey(false);
 
-		if (wParam == VK_W) KeyboardState::SetWKey(false);
-		if (wParam == VK_A) KeyboardState::SetAKey(false);
-		if (wParam == VK_S) KeyboardState::SetSKey(false);
-		if (wParam == VK_D) KeyboardState::SetDKey(false);
+		if (wParam == VK_W) keyboard->SetWKey(false);
+		if (wParam == VK_A) keyboard->SetAKey(false);
+		if (wParam == VK_S) keyboard->SetSKey(false);
+		if (wParam == VK_D) keyboard->SetDKey(false);
 		return 0;
 	}
 

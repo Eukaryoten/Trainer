@@ -51,10 +51,13 @@
     <ClCompile Include="TimerObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardState.cpp">
+    <ClCompile Include="StandardMouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Notes.cpp">
+    <ClCompile Include="KeyboardObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardKeyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,7 +110,13 @@
     <ClInclude Include="TimerObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardState.h">
+    <ClInclude Include="StandardMouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardKeyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -115,5 +124,8 @@
     <None Include="DirectionalLight.shader" />
     <None Include="PointLight.shader" />
     <None Include="ShapeSlider.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Notes.txt" />
   </ItemGroup>
 </Project>

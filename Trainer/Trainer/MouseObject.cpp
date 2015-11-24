@@ -1,16 +1,6 @@
 #include "MouseObject.h"
 
-
-
-MouseObject::MouseObject(){
-
-	currentPosition;
-	lastPosition;
-
-	GetCursorPos(&currentPosition);
-	lastPosition = currentPosition;
-	
-}
+MouseObject* MouseObject::instance = 0;
 
 void MouseObject::Update(float dt) {
 
@@ -63,8 +53,4 @@ void MouseObject::SetMouseObjectOutsideWindowObject(bool MouseObject) {
 void MouseObject::SetMouseObjectPosition(int x, int y) {
 
 	SetCursorPos(x, y);
-}
-
-MouseObject::~MouseObject()
-{
 }

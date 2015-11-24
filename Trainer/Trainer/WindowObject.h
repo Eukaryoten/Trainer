@@ -3,7 +3,7 @@
 #include <sstream>
 #include <math.h>
 #include "WindowDefinitions.h"
-#include "KeyboardState.h"
+#include "StandardKeyboard.h"
 #include "MouseObject.h"
 
 class WindowObject
